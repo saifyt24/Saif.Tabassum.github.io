@@ -402,14 +402,7 @@
                 const previewUrl = getPreviewUrl(resource.file);
 
                 if (previewUrl) {
-                  const previewLink = document.createElement("a");
-                  previewLink.href = getFileUrl(resource.file);
-                  previewLink.target = "_blank";
-                  previewLink.rel = "noopener noreferrer";
-                  previewLink.setAttribute(
-                    "aria-label",
-                    "Open " + label
-                  );
+                  const previewContainer = document.createElement("div");
 
                   const preview = document.createElement("img");
                   preview.className = "document-preview";
@@ -417,10 +410,10 @@
                   preview.alt = label + " preview";
                   preview.loading = "lazy";
 
-                  preview.onerror = () => previewLink.remove();
+                  preview.onerror = () => previewContainer.remove();
 
-                  previewLink.appendChild(preview);
-                  resourceList.appendChild(previewLink);
+                  previewContainer.appendChild(preview);
+                  resourceList.appendChild(previewContainer);;
                 }
 
                 const downloadLink = document.createElement("a");
