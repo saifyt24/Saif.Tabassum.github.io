@@ -1,0 +1,64 @@
+
+---
+layout: default
+---
+
+<article class="prose project-detail">
+  <p class="eyebrow">Project</p>
+  <h1>{{ page.title | escape }}</h1>
+
+  {% if page.description %}
+    <p class="lead">{{ page.description | escape }}</p>
+  {% endif %}
+
+  {% if page.image %}
+    <img
+      class="card-image"
+      src="{{ page.image | relative_url }}"
+      alt="{{ page.title | escape }}"
+    >
+  {% endif %}
+
+  {{ content }}
+
+  {% if page.tags %}
+    <ul class="tag-list">
+      {% for tag in page.tags %}
+        <li class="tag">{{ tag | escape }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  {% if page.resources %}
+    <section class="project-resources">
+      <h2>Project Resources</h2>
+      <ul>
+        {% for resource in page.resources %}
+          <li>
+            {% if resource.preview %}
+              <a href="{{ resource.file | relative_url }}">
+                <img
+                  src="{{ resource.preview | relative_url }}"
+                  alt="Preview of {{ resource.label | escape }}"
+                  loading="lazy"
+                >
+              </a>
+            {% endif %}
+
+            {% if resource.file %}
+              <a href="{{ resource.file | relative_url }}">
+                {{ resource.label | default: resource.file | escape }}
+              </a>
+            {% elsif resource.url %}
+              <a href="{{ resource.url | escape }}" target="_blank" rel="noopener noreferrer">
+                {{ resource.label | default: resource.url | escape }}
+              </a>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+  {% endif %}
+
+  <p><a href="{{ '/work/' | relative_url }}">← Back to all projects</a></p>
+</article>
