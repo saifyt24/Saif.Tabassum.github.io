@@ -200,21 +200,9 @@
         <span class="muted">Things I've worked on</span>
       </div>
 
-      <div class="projects">
-        <a class="project" href="project-one.html">
-          <img src="images/project-one.jpg"
-               alt="First project preview">
-          <h3>Project One</h3>
-          <p>A short description of something I've created.</p>
-        </a>
-
-        <a class="project" href="project-two.html">
-          <img src="images/project-two.jpg"
-               alt="Second project preview">
-          <h3>Project Two</h3>
-          <p>A short description of another project or interest.</p>
-        </a>
-      </div>
+   <div class="projects" id="projects">
+  <p class="muted">Loading projects...</p>
+</div>
     </section>
 
     <section id="about">
@@ -234,5 +222,83 @@
       © 2026 Saif Tabassum · Made by me.
     </div>
   </footer>
+  
+<script>
+  const projectsContainer = document.getElementById("projects");
+
+  async function loadProjects() {
+    const apiUrl =
+      "https://api.github.com/repos/saifyt24/Saif.Tabassum.github.io/contents/content/projects";
+
+    try {
+      const response = await fetch(apiUrl);
+
+      if (!response.ok) {
+        throw new Error("Could not retrieve projects.");
+      }
+
+      const files = await response.json();
+      const markdownFiles = files.filter(file => file.name.endsWith(".md"));
+
+      if (markdownFiles.length === 0) {
+        projectsContainer.innerHTML =
+          '<p class="muted">No projects have been added yet.</p>';
+        return;
+      }
+
+      projectsContainer.innerHTML = "";
+
+      for (const file of markdownFiles) {
+        const fileResponse = await fetch(file.download_url);
+        const markdown = await fileResponse.text();
+
+        const frontMatter = markdown.match(/^---\s*\n([\s\S]*?)\n---/);
+        const metadata = frontMatter ? frontMatter[1] : "";
+        const body = frontMatter
+          ? markdown.slice(frontMatter[0].length).trim()
+          : markdown;
+
+        const getField = name => {
+          const match = metadata.match(
+            new RegExp("^" + name + ":\\s*(.*)$", "m")
+          );
+          return match ? match[1].trim().replace(/^['"]|['"]$/g, "") : "";
+        };
+
+        const title = getField("title") || file.name.replace(/\.md$/, "");
+        const description = getField("description") || body.slice(0, 160);
+        const image = getField("image");
+
+        const card = document.createElement("article");
+        card.className = "project";
+
+        if (image) {
+          const img = document.createElement("img");
+          img.src = image.startsWith("http")
+            ? image
+            : "https://raw.githubusercontent.com/saifyt24/Saif.Tabassum.github.io/main/" +
+              image.replace(/^\/+/, "");
+          img.alt = title;
+          card.appendChild(img);
+        }
+
+        const heading = document.createElement("h3");
+        heading.textContent = title;
+
+        const paragraph = document.createElement("p");
+        paragraph.textContent = description;
+
+        card.append(heading, paragraph);
+        projectsContainer.appendChild(card);
+      }
+    } catch (error) {
+      projectsContainer.innerHTML =
+        '<p class="muted">Projects could not load. Please try again later.</p>';
+      console.error(error);
+    }
+  }
+
+  loadProjects();
+</script>
 </body>
 </html>
