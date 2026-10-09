@@ -12,7 +12,10 @@ content:
   format: yaml-frontmatter
   view:
   primary: title
-  fields: [title, description, featured]
+  fields:
+  - title
+  - description
+  - featured
   fields:
 
   * name: title
@@ -68,7 +71,10 @@ content:
   format: yaml-frontmatter
   view:
   primary: title
-  fields: [title, description, status]
+  fields:
+  - title
+  - description
+  - status
   fields:
 
   * name: title
@@ -97,17 +103,18 @@ content:
     type: rich-text
     required: false
 
-    * name: posts
+* name: posts
   label: Writing
   type: collection
   path: _posts
-  filename:
-  template: "{year}-{month}-{day}-{title}.md"
-  field: create
+  filename: "{primary}.md"
   format: yaml-frontmatter
   view:
   primary: title
-  fields: [title, date, published]
+  fields:
+  - title
+  - date
+  - published
   sort: date
   order: desc
   fields:
@@ -133,5 +140,3 @@ content:
   * name: body
     label: Article Content
     type: rich-text
-
-
