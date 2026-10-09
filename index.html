@@ -27,7 +27,7 @@ description: Projects, writing, and experiments by Saif Tabassum.
   </div>
 
   <div class="card-grid">
-    {% assign featured_projects = site.projects | where: "featured", true %}
+    {% assign featured_projects = site.projects | where: "featured", true | where_exp: "project", "project.published != false" | where_exp: "project", "project.draft != true" %}
     {% for project in featured_projects limit: 3 %}
       <article class="card">
         {% if project.image %}
