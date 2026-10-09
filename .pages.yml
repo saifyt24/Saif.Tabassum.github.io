@@ -48,3 +48,8 @@ content:
           - name: url
             label: External Link
             type: string
+
+          - name: preview
+            label: Document Preview Image
+            type: image
+            required: false
