@@ -1,0 +1,73 @@
+
+name: Test Jekyll Build
+
+on:
+  push:
+    branches:
+      - jekyll-rebuild
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: false
+
+      - name: Install Jekyll
+        run: gem install jekyll bundler
+
+      - name: Build site
+        run: jekyll build --trace --verbose
+
+      - name: Diagnose collections
+        run: |
+          ruby -e 'require "yaml"; c = YAML.load_file("_config.yml"); p c["collections"]'
+          echo "Project source files:"
+          if [ -d _projects ]; then
+          find _projects -maxdepth 1 -type f -name '*.md' -print
+          else
+          echo "The _projects folder does not exist yet."
+          fi
+          echo "Files generated under _site:"
+          find _site -type f | sort
+
+      - name: Diagnose homepage processing
+        run: | 
+          echo "Generated project files:"
+          find _site/work -type f 2>/dev/null || echo "No generated work directory"
+          echo "Generated experiment files:"
+          find _site/experiments -type f 2>/dev/null || echo "No generated experiment directory"
+          echo "Root homepage exists:"
+          ls -l index.html
+          echo "Generated homepage exists:"
+          ls -l _site/index.html
+          echo "Generated homepage first lines:"
+          head -n 8 _site/index.html
+          echo "Jekyll source files:"
+          find . -maxdepth 2 -name 'index.html' -not -path './_site/*' -not -path './.git/*'
+
+      - name: Verify generated homepage
+        run: |
+          echo "Generated homepage begins with:"
+          head -n 10 _site/index.html
+          echo "Generated About page begins with:"
+          head -n 10 _site/about/index.html
+
+      - name: Upload built website
+        uses: actions/upload-artifact@v4
+        with:
+          name: jekyll-built-site
+          path: _site/
+          if-no-files-found: error
+          retention-days: 7

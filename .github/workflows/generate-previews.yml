@@ -6,6 +6,7 @@ on:
   
   push:
     paths:
+      - '_projects/**'
       - 'content/projects/**'
       - 'images/*.pdf'
       - 'images/*.xlsx'
@@ -36,7 +37,9 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-
+        with:
+          ref: ${{ github.ref_name }}
+          
       - name: Install conversion tools
         run: |
           sudo apt-get update
@@ -52,5 +55,5 @@ jobs:
           git add images/previews
           if ! git diff --cached --quiet; then
             git commit -m "Generate document previews"
-            git push
+            git push origin HEAD:${{ github.ref_name }}
           fi
