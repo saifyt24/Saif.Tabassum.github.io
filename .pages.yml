@@ -10,12 +10,41 @@ content:
     path: content/projects
     fields:
       - name: title
+        label: Project Title
         type: string
+
       - name: description
+        label: Description
         type: text
+
       - name: image
+        label: Project Image
         type: image
+        required: false
+
       - name: video
+        label: Video URL
         type: string
+        required: false
+
       - name: body
+        label: Project Details
         type: rich-text
+        required: false
+
+      - name: resources
+        label: Project Resources
+        type: object
+        list: true
+        fields:
+          - name: label
+            label: Resource Name
+            type: string
+
+          - name: file
+            label: Uploaded File
+            type: file
+
+          - name: url
+            label: External Link
+            type: string
