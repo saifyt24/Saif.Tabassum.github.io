@@ -86,7 +86,8 @@ description: Projects, writing, and experiments by Saif Tabassum.
   </div>
 
   <div class="card-grid">
-    {% for experiment in site.experiments limit: 3 %}
+    {% assign published_experiments = site.experiments | where_exp: "experiment", "experiment.published != false" | where_exp: "experiment", "experiment.draft != true" %}
+    {% for experiment in published_experiments limit: 3 %}
       <article class="card">
         <div class="card-content">
           {% if experiment.status %}
