@@ -130,3 +130,18 @@ content:
       - name: body
         label: Article Content
         type: rich-text
+
+  - name: resume
+    label: Resume
+    type: file
+    path: _data/resume.yml
+    format: yaml
+    fields:
+      - name: file
+        label: Resume PDF
+        type: file
+        required: true
+        options:
+          path: images
+          extensions: [pdf]
+          rename: false
