@@ -16,21 +16,25 @@ permalink: /experiments/
 </section>
 
 <section class="section">
-  <div class="filter-bar">
-    <label for="experiment-search">Search experiments</label>
+  <div class="content-tools">
     <input
       id="experiment-search"
+      class="search-input"
       type="search"
+      aria-label="Search experiments"
       placeholder="Search by title, description, or tag..."
     >
-    <label for="experiment-status">Filter by status</label>
-    <select id="experiment-status">
-      <option value="">All statuses</option>
-      <option value="in progress">In progress</option>
-      <option value="completed">Completed</option>
-      <option value="archived">Archived</option>
-      <option value="idea">Idea</option>
-    </select>
+
+```
+<select id="experiment-status" aria-label="Filter experiments by status">
+  <option value="">All statuses</option>
+  <option value="in progress">In progress</option>
+  <option value="completed">Completed</option>
+  <option value="archived">Archived</option>
+  <option value="idea">Idea</option>
+</select>
+```
+
   </div>
 
   <div class="card-grid" id="experiment-grid">
@@ -81,7 +85,7 @@ permalink: /experiments/
   </div>
 
   <p id="no-experiment-results" class="muted" hidden>No matching experiments found.</p>
-  <p id="empty-experiments" class="muted">
+  <p id="empty-experiments" class="muted" hidden>
     Your experiments will appear here as you add them.
   </p>
 </section>
