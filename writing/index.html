@@ -16,11 +16,12 @@ permalink: /writing/
 </section>
 
 <section class="section">
-  <div class="filter-bar">
-    <label for="writing-search">Search writing</label>
+  <div class="content-tools">
     <input
       id="writing-search"
+      class="search-input"
       type="search"
+      aria-label="Search writing"
       placeholder="Search by title, summary, or tag..."
     >
   </div>
@@ -67,7 +68,7 @@ permalink: /writing/
   </div>
 
   <p id="no-writing-results" class="muted" hidden>No matching articles found.</p>
-  <p id="empty-writing" class="muted">
+  <p id="empty-writing" class="muted" hidden>
     Your writing will appear here as you publish articles and notes.
   </p>
 </section>
