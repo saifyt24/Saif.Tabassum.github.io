@@ -4,12 +4,12 @@ url: "https://saifyt24.github.io"
 baseurl: "/Saif.Tabassum.github.io"
 
 markdown: kramdown
-permalink: /writing/:title/
+permalink: /blog/:title/
 
 collections:
   projects:
     output: true
-    permalink: /work/:name/
+    permalink: /projects/:name/
   experiments:
     output: true
     permalink: /experiments/:name/
