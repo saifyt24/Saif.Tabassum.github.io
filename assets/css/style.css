@@ -598,11 +598,3 @@ p {
     animation-iteration-count: 1 !important;
   }
 }
-
-li::marker {
-  content: none !important;
-}
-
-li {
-  list-style: none !important;
-}
