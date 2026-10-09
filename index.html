@@ -226,58 +226,115 @@
 <script>
   const projectsContainer = document.getElementById("projects");
 
-  async function loadProjects() {
-    const apiUrl =
-      "https://api.github.com/repos/saifyt24/Saif.Tabassum.github.io/contents/content/projects";
+  const repoRaw =
+    "https://raw.githubusercontent.com/saifyt24/Saif.Tabassum.github.io/main/";
 
+  function getField(metadata, name) {
+    const match = metadata.match(
+      new RegExp("^" + name + ":\\s*(.*)$", "m")
+    );
+
+    return match
+      ? match[1].trim().replace(/^['"]|['"]$/g, "")
+      : "";
+  }
+
+  function getResources(metadata) {
+    const match = metadata.match(
+      /^resources:\s*\n((?:[ \t]+.*(?:\n|$))*)/m
+    );
+
+    if (!match) return [];
+
+    const resources = [];
+    let current = null;
+
+    for (const line of match[1].split("\n")) {
+      const item = line.match(/^\s+-\s+label:\s*(.*)$/);
+
+      if (item) {
+        if (current) resources.push(current);
+        current = {
+          label: item[1].trim().replace(/^['"]|['"]$/g, ""),
+          file: "",
+          url: ""
+        };
+        continue;
+      }
+
+      if (!current) continue;
+
+      const field = line.match(/^\s+(file|url):\s*(.*)$/);
+
+      if (field) {
+        current[field[1]] = field[2]
+          .trim()
+          .replace(/^['"]|['"]$/g, "");
+      }
+    }
+
+    if (current) resources.push(current);
+
+    return resources;
+  }
+
+  function getFileUrl(path) {
+    if (/^https?:\/\//i.test(path)) return path;
+
+    return repoRaw + path.replace(/^\/+/, "");
+  }
+
+  async function loadProjects() {
     try {
-      const response = await fetch(apiUrl);
+      const response = await fetch(
+        "https://api.github.com/repos/saifyt24/Saif.Tabassum.github.io/contents/content/projects"
+      );
 
       if (!response.ok) {
         throw new Error("Could not retrieve projects.");
       }
 
       const files = await response.json();
-      const markdownFiles = files.filter(file => file.name.endsWith(".md"));
-
-      if (markdownFiles.length === 0) {
-        projectsContainer.innerHTML =
-          '<p class="muted">No projects have been added yet.</p>';
-        return;
-      }
+      const markdownFiles = files.filter(file =>
+        file.name.endsWith(".md")
+      );
 
       projectsContainer.innerHTML = "";
 
+      if (markdownFiles.length === 0) {
+        projectsContainer.textContent = "No projects have been added yet.";
+        return;
+      }
+
       for (const file of markdownFiles) {
         const fileResponse = await fetch(file.download_url);
-        const markdown = await fileResponse.text();
 
+        if (!fileResponse.ok) continue;
+
+        const markdown = await fileResponse.text();
         const frontMatter = markdown.match(/^---\s*\n([\s\S]*?)\n---/);
         const metadata = frontMatter ? frontMatter[1] : "";
         const body = frontMatter
           ? markdown.slice(frontMatter[0].length).trim()
           : markdown;
 
-        const getField = name => {
-          const match = metadata.match(
-            new RegExp("^" + name + ":\\s*(.*)$", "m")
-          );
-          return match ? match[1].trim().replace(/^['"]|['"]$/g, "") : "";
-        };
+        const title =
+          getField(metadata, "title") ||
+          file.name.replace(/\.md$/, "");
 
-        const title = getField("title") || file.name.replace(/\.md$/, "");
-        const description = getField("description") || body.slice(0, 160);
-        const image = getField("image");
+        const description =
+          getField(metadata, "description") ||
+          body.slice(0, 160);
+
+        const image = getField(metadata, "image");
+        const resources = getResources(metadata);
 
         const card = document.createElement("article");
         card.className = "project";
 
         if (image) {
           const img = document.createElement("img");
-          img.src = image.startsWith("http")
-            ? image
-            : "https://raw.githubusercontent.com/saifyt24/Saif.Tabassum.github.io/main/" +
-              image.replace(/^\/+/, "");
+          img.src = getFileUrl(image);
           img.alt = title;
           card.appendChild(img);
         }
@@ -289,11 +346,47 @@
         paragraph.textContent = description;
 
         card.append(heading, paragraph);
+
+        if (resources.length) {
+          const resourceList = document.createElement("div");
+          resourceList.style.marginTop = "12px";
+          resourceList.style.display = "grid";
+          resourceList.style.gap = "8px";
+
+          for (const resource of resources) {
+            const label = resource.label || "Project resource";
+
+            if (resource.file) {
+              const link = document.createElement("a");
+              link.className = "text-link";
+              link.style.marginTop = "0";
+              link.textContent = "Download " + label;
+              link.href = getFileUrl(resource.file);
+              link.target = "_blank";
+              link.rel = "noopener noreferrer";
+              resourceList.appendChild(link);
+            }
+
+            if (resource.url) {
+              const link = document.createElement("a");
+              link.className = "text-link";
+              link.style.marginTop = "0";
+              link.textContent = "Visit " + label;
+              link.href = resource.url;
+              link.target = "_blank";
+              link.rel = "noopener noreferrer";
+              resourceList.appendChild(link);
+            }
+          }
+
+          card.appendChild(resourceList);
+        }
+
         projectsContainer.appendChild(card);
       }
     } catch (error) {
-      projectsContainer.innerHTML =
-        '<p class="muted">Projects could not load. Please try again later.</p>';
+      projectsContainer.textContent =
+        "Projects could not load. Please try again later.";
       console.error(error);
     }
   }
