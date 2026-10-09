@@ -104,8 +104,10 @@ content:
     view:
       primary: title
       fields: [title, date, published]
-      sort: date
-      order: desc
+      sort: [date]
+      default:
+        sort: date
+        order: desc
     fields:
       - name: title
         label: Article Title
