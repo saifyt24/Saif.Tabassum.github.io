@@ -25,7 +25,6 @@ permalink: /experiments/
       placeholder="Search by title, description, or tag..."
     >
 
-```
 <select id="experiment-status" aria-label="Filter experiments by status">
   <option value="">All statuses</option>
   <option value="in progress">In progress</option>
@@ -54,7 +53,6 @@ permalink: /experiments/
             >
           {% endif %}
 
-```
       <div class="card-content">
         <span class="status">
           {{ experiment.status | default: "Idea" | escape }}
