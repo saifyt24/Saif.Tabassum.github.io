@@ -61,7 +61,7 @@ description: Projects, writing, and experiments by Saif Tabassum.
   </div>
 
   <div class="card-grid">
-    {% assign published_posts = site.posts | where_exp: "post", "post.published != false" %}
+    {% assign published_posts = site.posts | where_exp: "post", "post.published != false" | where_exp: "post", "post.draft != true" %}
     {% for post in published_posts limit: 3 %}
       <article class="card">
         <div class="card-content">
