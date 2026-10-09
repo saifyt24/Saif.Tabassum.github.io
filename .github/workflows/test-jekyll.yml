@@ -34,7 +34,11 @@ jobs:
         run: |
           ruby -e 'require "yaml"; c = YAML.load_file("_config.yml"); p c["collections"]'
           echo "Project source files:"
+          if [ -d _projects ]; then
           find _projects -maxdepth 1 -type f -name '*.md' -print
+          else
+          echo "The _projects folder does not exist yet."
+          fi
           echo "Files generated under _site:"
           find _site -type f | sort
 
