@@ -1,0 +1,21 @@
+
+media:
+  input: images
+  output: /images
+
+content:
+  - name: projects
+    label: Projects
+    type: collection
+    path: content/projects
+    fields:
+      - name: title
+        type: string
+      - name: description
+        type: text
+      - name: image
+        type: image
+      - name: video
+        type: string
+      - name: body
+        type: rich-text
