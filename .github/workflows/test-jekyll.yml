@@ -28,7 +28,7 @@ jobs:
         run: gem install jekyll bundler
 
       - name: Build site
-        run: jekyll build
+        run: jekyll build --trace --verbose
 
       - name: Verify generated homepage
         run: |
