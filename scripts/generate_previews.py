@@ -24,21 +24,29 @@ def generate_preview(source):
 
             if source.suffix.lower() == ".pdf":
                 pdf_file = source
-            else:     
-result = subprocess.run(
-    [
-        "libreoffice",
-        "--headless",
-        "--convert-to",
-        (
-            'pdf:calc_pdf_Export:'
-            '{"SinglePageSheets":{"type":"boolean","value":"true"}}'
-            if source.suffix.lower() in {".xlsx", ".xls", ".ods"}
-            else "pdf"
-        ),
-        "--outdir", str(temp_dir),
-        str(source),
-    ],
+            else:
+                extension = source.suffix.lower()
+
+                if extension in {".xlsx", ".xls", ".ods"}:
+                    export_filter = (
+                        'pdf:calc_pdf_Export:'
+                        '{"SinglePageSheets":{"type":"boolean","value":"true"}}'
+                    )
+                elif extension in {".docx", ".doc", ".odt"}:
+                    export_filter = "pdf:writer_pdf_Export"
+                elif extension in {".pptx", ".ppt"}:
+                    export_filter = "pdf:impress_pdf_Export"
+                else:
+                    export_filter = "pdf"
+
+                result = subprocess.run(
+                    [
+                        "libreoffice",
+                        "--headless",
+                        "--convert-to", export_filter,
+                        "--outdir", str(temp_dir),
+                        str(source),
+                    ],
                     capture_output=True,
                     text=True,
                     timeout=120,
@@ -49,6 +57,7 @@ result = subprocess.run(
                 if result.returncode != 0 or not pdf_file.exists():
                     print(f"Could not convert: {source}")
                     print(result.stderr)
+                    print(result.stdout)
                     return
 
             output_base = temp_dir / "page"
@@ -60,7 +69,7 @@ result = subprocess.run(
                     "-l", "1",
                     "-singlefile",
                     "-png",
-                    "-r", "100",
+                    "-r", "180",
                     str(pdf_file),
                     str(output_base),
                 ],
@@ -85,6 +94,8 @@ def main():
     if not MEDIA_DIR.exists():
         print("Images folder not found.")
         return
+
+    PREVIEW_DIR.mkdir(parents=True, exist_ok=True)
 
     for source in MEDIA_DIR.rglob("*"):
         if not source.is_file():
