@@ -1,0 +1,120 @@
+---
+
+layout: default
+title: Experiments
+description: Explorations, prototypes, and things I'm building.
+permalink: /experiments/
+------------------------
+
+<section class="page-heading">
+  <p class="eyebrow">Work in progress</p>
+  <h1>Experiments</h1>
+  <p class="lead">
+    A collection of prototypes, ideas, and side projects. Some are finished,
+    some are evolving, and others are opportunities to learn something new.
+  </p>
+</section>
+
+<section class="section">
+  <div class="filter-bar">
+    <label for="experiment-search">Search experiments</label>
+    <input
+      id="experiment-search"
+      type="search"
+      placeholder="Search by title, description, or tag..."
+    >
+    <label for="experiment-status">Filter by status</label>
+    <select id="experiment-status">
+      <option value="">All statuses</option>
+      <option value="in progress">In progress</option>
+      <option value="completed">Completed</option>
+      <option value="archived">Archived</option>
+      <option value="idea">Idea</option>
+    </select>
+  </div>
+
+  <div class="card-grid" id="experiment-grid">
+    {% assign sorted_experiments = site.experiments | sort: "title" %}
+    {% for experiment in sorted_experiments %}
+      {% unless experiment.published == false or experiment.draft == true %}
+        <article
+          class="card experiment-card"
+          data-search="{{ experiment.title }} {{ experiment.description }} {{ experiment.tags | join: ' ' | default: '' | escape | downcase }}"
+          data-status="{{ experiment.status | default: 'idea' | downcase | escape }}"
+        >
+          {% if experiment.image %}
+            <img
+              class="card-image"
+              src="{{ experiment.image | relative_url }}"
+              alt="{{ experiment.title | escape }}"
+              loading="lazy"
+            >
+          {% endif %}
+
+```
+      <div class="card-content">
+        <span class="status">
+          {{ experiment.status | default: "Idea" | escape }}
+        </span>
+
+        <h2>
+          <a href="{{ experiment.url | relative_url }}">{{ experiment.title | escape }}</a>
+        </h2>
+
+        {% if experiment.description %}
+          <p class="card-description">{{ experiment.description | escape }}</p>
+        {% endif %}
+
+        {% if experiment.tags %}
+          <ul class="tag-list">
+            {% for tag in experiment.tags %}
+              <li class="tag">{{ tag | escape }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    </article>
+  {% endunless %}
+{% endfor %}
+```
+
+  </div>
+
+  <p id="no-experiment-results" class="muted" hidden>No matching experiments found.</p>
+  <p id="empty-experiments" class="muted">
+    Your experiments will appear here as you add them.
+  </p>
+</section>
+
+<script>
+  (function () {
+    const search = document.getElementById("experiment-search");
+    const status = document.getElementById("experiment-status");
+    const cards = Array.from(document.querySelectorAll(".experiment-card"));
+    const noResults = document.getElementById("no-experiment-results");
+    const emptyMessage = document.getElementById("empty-experiments");
+
+    emptyMessage.hidden = cards.length > 0;
+
+    function filterExperiments() {
+      const query = search.value.trim().toLowerCase();
+      const selectedStatus = status.value;
+      let visibleCount = 0;
+
+      cards.forEach(function (card) {
+        const matchesText = card.dataset.search.toLowerCase().includes(query);
+        const matchesStatus =
+          !selectedStatus || card.dataset.status === selectedStatus;
+        const visible = matchesText && matchesStatus;
+
+        card.hidden = !visible;
+        if (visible) visibleCount++;
+      });
+
+      noResults.hidden = visibleCount > 0 || cards.length === 0;
+    }
+
+    search.addEventListener("input", filterExperiments);
+    status.addEventListener("change", filterExperiments);
+  })();
+</script>
