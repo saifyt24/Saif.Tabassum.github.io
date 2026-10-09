@@ -24,15 +24,21 @@ def generate_preview(source):
 
             if source.suffix.lower() == ".pdf":
                 pdf_file = source
-            else:
-                result = subprocess.run(
-                    [
-                        "libreoffice",
-                        "--headless",
-                        "--convert-to", "pdf",
-                        "--outdir", str(temp_dir),
-                        str(source),
-                    ],
+            else:     
+result = subprocess.run(
+    [
+        "libreoffice",
+        "--headless",
+        "--convert-to",
+        (
+            'pdf:calc_pdf_Export:'
+            '{"SinglePageSheets":{"type":"boolean","value":"true"}}'
+            if source.suffix.lower() in {".xlsx", ".xls", ".ods"}
+            else "pdf"
+        ),
+        "--outdir", str(temp_dir),
+        str(source),
+    ],
                     capture_output=True,
                     text=True,
                     timeout=120,
