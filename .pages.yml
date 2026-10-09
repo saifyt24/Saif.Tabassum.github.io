@@ -1,6 +1,11 @@
 media:
-  input: images
-  output: /images
+  - name: images
+    input: images
+    output: /images
+  - name: resume
+    input: resume
+    output: /resume
+    extensions: [pdf]
 
 content:
   - name: projects
