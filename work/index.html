@@ -1,0 +1,101 @@
+---
+
+layout: default
+title: Work
+description: Projects in finance, data, technology, and beyond.
+permalink: /work/
+-----------------
+
+<section class="page-heading">
+  <p class="eyebrow">Selected projects</p>
+  <h1>My work</h1>
+  <p class="lead">
+    Projects, tools, and ideas I've explored across finance, data, and technology.
+  </p>
+</section>
+
+<section class="section">
+  <div class="filter-bar">
+    <label for="project-search">Search projects</label>
+    <input
+      id="project-search"
+      type="search"
+      placeholder="Search by title, description, or tag..."
+    >
+  </div>
+
+  <div class="card-grid" id="project-grid">
+    {% assign sorted_projects = site.projects | sort: "title" %}
+    {% for project in sorted_projects %}
+      {% unless project.published == false or project.draft == true %}
+        <article
+          class="card project-card"
+          data-search="{{ project.title }} {{ project.description }} {{ project.tags | join: ' ' | default: '' | escape | downcase }}"
+        >
+          {% if project.image %}
+            <img
+              class="card-image"
+              src="{{ project.image | relative_url }}"
+              alt="{{ project.title | escape }}"
+              loading="lazy"
+            >
+          {% endif %}
+
+```
+      <div class="card-content">
+        {% if project.featured %}
+          <p class="eyebrow">Featured project</p>
+        {% endif %}
+
+        <h2>
+          <a href="{{ project.url | relative_url }}">{{ project.title | escape }}</a>
+        </h2>
+
+        {% if project.description %}
+          <p class="card-description">{{ project.description | escape }}</p>
+        {% endif %}
+
+        {% if project.tags %}
+          <ul class="tag-list">
+            {% for tag in project.tags %}
+              <li class="tag">{{ tag | escape }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    </article>
+  {% endunless %}
+{% endfor %}
+```
+
+  </div>
+
+  <p id="no-projects" class="muted" hidden>No matching projects found.</p>
+  <p id="empty-projects" class="muted">
+    Your projects will appear here as you add and publish them.
+  </p>
+</section>
+
+<script>
+  (function () {
+    const search = document.getElementById("project-search");
+    const cards = Array.from(document.querySelectorAll(".project-card"));
+    const noResults = document.getElementById("no-projects");
+    const emptyMessage = document.getElementById("empty-projects");
+
+    emptyMessage.hidden = cards.length > 0;
+
+    search.addEventListener("input", function () {
+      const query = search.value.trim().toLowerCase();
+      let visibleCount = 0;
+
+      cards.forEach(function (card) {
+        const matches = card.dataset.search.toLowerCase().includes(query);
+        card.hidden = !matches;
+        if (matches) visibleCount++;
+      });
+
+      noResults.hidden = visibleCount > 0 || cards.length === 0;
+    });
+  })();
+</script>
