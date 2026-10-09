@@ -31,7 +31,11 @@ jobs:
         run: jekyll build --trace --verbose
 
       - name: Diagnose homepage processing
-        run: |
+        run: | 
+          echo "Generated project files:"
+          find _site/work -type f 2>/dev/null || echo "No generated work directory"
+          echo "Generated experiment files:"
+          find _site/experiments -type f 2>/dev/null || echo "No generated experiment directory"
           echo "Root homepage exists:"
           ls -l index.html
           echo "Generated homepage exists:"
