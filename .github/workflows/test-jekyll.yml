@@ -33,8 +33,8 @@ jobs:
       - name: Diagnose collections
         run: |
           ruby -e 'require "yaml"; c = YAML.load_file("_config.yml"); p c["collections"]'
-          echo "Project source file:"
-          cat _projects/portfolio-test.md
+          echo "Project source files:"
+          find _projects -maxdepth 1 -type f -name '*.md' -print
           echo "Files generated under _site:"
           find _site -type f | sort
 
