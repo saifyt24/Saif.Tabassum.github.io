@@ -7,7 +7,7 @@ content:
   - name: projects
     label: Projects
     type: collection
-    path: content/projects
+    path: _projects
     fields:
       - name: title
         label: Project Title
