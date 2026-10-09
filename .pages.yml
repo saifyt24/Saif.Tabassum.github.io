@@ -94,7 +94,7 @@ content:
         required: false
 
   - name: posts
-    label: Writing
+    label: Blog
     type: collection
     path: _posts
     filename:
