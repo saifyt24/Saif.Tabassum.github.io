@@ -1,9 +1,9 @@
 ---
-title: CMS Test Project.
-description: Temporary test of the Pages CMS workflow.
-featured: false
-published: false
+title: Test 2
+description: Testing photo dot
+featured: true
+published: true
 resources:
-  - label: Test PDF
-    file: /images/Resume_ST.pdf
+  - label: Test doc
+    file: /images/Job Tracker.xlsm
 ---
