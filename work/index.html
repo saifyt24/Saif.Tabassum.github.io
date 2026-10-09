@@ -4,7 +4,7 @@ layout: default
 title: Work
 description: Projects in finance, data, technology, and beyond.
 permalink: /work/
----
+-----------------
 
 <section class="page-heading">
   <p class="eyebrow">Selected projects</p>
@@ -15,11 +15,12 @@ permalink: /work/
 </section>
 
 <section class="section">
-  <div class="filter-bar">
-    <label for="project-search">Search projects</label>
+  <div class="content-tools">
     <input
       id="project-search"
+      class="search-input"
       type="search"
+      aria-label="Search projects"
       placeholder="Search by title, description, or tag..."
     >
   </div>
@@ -41,6 +42,7 @@ permalink: /work/
             >
           {% endif %}
 
+```
       <div class="card-content">
         {% if project.featured %}
           <p class="eyebrow">Featured project</p>
@@ -65,11 +67,12 @@ permalink: /work/
     </article>
   {% endunless %}
 {% endfor %}
+```
 
   </div>
 
   <p id="no-projects" class="muted" hidden>No matching projects found.</p>
-  <p id="empty-projects" class="muted">
+  <p id="empty-projects" class="muted" hidden>
     Your projects will appear here as you add and publish them.
   </p>
 </section>
