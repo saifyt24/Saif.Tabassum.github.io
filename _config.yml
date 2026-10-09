@@ -1,3 +1,4 @@
+
 title: "Saif Tabassum"
 description: "Portfolio, projects, writing, and experiments."
 url: "https://saifyt24.github.io"
@@ -7,30 +8,27 @@ markdown: kramdown
 permalink: /writing/:title/
 
 collections:
-projects:
-output: true
-permalink: /work/:name/
-experiments:
-output: true
-permalink: /experiments/:name/
+  projects:
+    output: true
+    permalink: /work/:name/
+  experiments:
+    output: true
+    permalink: /experiments/:name/
 
 defaults:
-
-* scope:
-  path: ""
-  type: projects
-  values:
-  layout: default
-* scope:
-  path: ""
-  type: experiments
-  values:
-  layout: default
+  - scope:
+      path: ""
+      type: projects
+    values:
+      layout: default
+  - scope:
+      path: ""
+      type: experiments
+    values:
+      layout: default
 
 exclude:
-
-* README.md
-* Gemfile
-* Gemfile.lock
-* vendor
-
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor
