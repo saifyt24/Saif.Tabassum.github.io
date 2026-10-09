@@ -55,5 +55,5 @@ jobs:
           git add images/previews
           if ! git diff --cached --quiet; then
             git commit -m "Generate document previews"
-            git push
+            git push origin HEAD:${{ github.ref_name }}
           fi
