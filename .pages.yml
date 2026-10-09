@@ -142,6 +142,6 @@ content:
         type: file
         required: true
         options:
-          path: images
+          path: resume
           extensions: [pdf]
           rename: false
