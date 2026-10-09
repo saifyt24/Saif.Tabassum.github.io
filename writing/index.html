@@ -4,7 +4,7 @@ layout: default
 title: Writing
 description: Articles, notes, and ideas on AI, finance, data, and technology.
 permalink: /writing/
---------------------
+---
 
 <section class="page-heading">
   <p class="eyebrow">Thoughts &amp; ideas</p>
@@ -39,7 +39,6 @@ permalink: /writing/
               {{ post.date | date: "%b %d, %Y" }}
             </p>
 
-```
         <h2>
           <a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
         </h2>
@@ -63,7 +62,6 @@ permalink: /writing/
     </article>
   {% endunless %}
 {% endfor %}
-```
 
   </div>
 
