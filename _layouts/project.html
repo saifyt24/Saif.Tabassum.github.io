@@ -35,17 +35,23 @@ layout: default
       <ul>
         {% for resource in page.resources %}
           <li>
-            {% if resource.preview %}
-              <a href="{{ resource.file | relative_url }}">
-                <img
-                  src="{{ resource.preview | relative_url }}"
-                  alt="Preview of {{ resource.label | escape }}"
-                  loading="lazy"
-                >
-              </a>
-            {% endif %}
-
             {% if resource.file %}
+              {% assign resource_filename = resource.file | split: "/" | last %}
+              {% assign resource_extension = resource.file | split: "." | last | downcase %}
+              {% assign preview_extensions = "pdf xlsx xls docx doc pptx ppt odt ods" | split: " " %}
+              {% assign auto_preview = "/images/previews/" | append: resource_filename | append: ".png" %}
+              {% assign preview_image = resource.preview | default: auto_preview %}
+
+              {% if resource.preview or preview_extensions contains resource_extension %}
+                <a href="{{ resource.file | relative_url }}">
+                  <img
+                    src="{{ preview_image | relative_url }}"
+                    alt="Preview of {{ resource.label | escape }}"
+                    loading="lazy"
+                  >
+                </a>
+              {% endif %}
+
               <a href="{{ resource.file | relative_url }}">
                 {{ resource.label | default: resource.file | escape }}
               </a>
