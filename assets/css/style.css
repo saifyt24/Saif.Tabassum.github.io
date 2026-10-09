@@ -598,20 +598,3 @@ p {
     animation-iteration-count: 1 !important;
   }
 }
-
-/* Remove bullets from preview and resource lists */
-.resource-preview,
-.resource-preview ul,
-.resource-preview li {
-  list-style: none;
-}
-
-.resource-preview ul,
-.resource-preview li {
-  margin-left: 0;
-  padding-left: 0;
-}
-
-.resource-preview li::marker {
-  content: "";
-}
