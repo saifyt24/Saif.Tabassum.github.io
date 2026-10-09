@@ -97,3 +97,41 @@ content:
     type: rich-text
     required: false
 
+    * name: posts
+  label: Writing
+  type: collection
+  path: _posts
+  filename:
+  template: "{year}-{month}-{day}-{title}.md"
+  field: create
+  format: yaml-frontmatter
+  view:
+  primary: title
+  fields: [title, date, published]
+  sort: date
+  order: desc
+  fields:
+
+  * name: title
+    label: Article Title
+    type: string
+    required: true
+  * name: date
+    label: Publication Date
+    type: date
+    required: true
+  * name: description
+    label: Short Summary
+    type: text
+  * name: tags
+    label: Tags
+    type: string
+    list: true
+  * name: published
+    label: Published
+    type: boolean
+  * name: body
+    label: Article Content
+    type: rich-text
+
+
