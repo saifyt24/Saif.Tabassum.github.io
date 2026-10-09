@@ -1,55 +1,99 @@
-
 media:
-  input: images
-  output: /images
+input: images
+output: /images
 
 content:
-  - name: projects
-    label: Projects
-    type: collection
-    path: content/projects
+
+* name: projects
+  label: Projects
+  type: collection
+  path: _projects
+  filename: "{primary}.md"
+  format: yaml-frontmatter
+  view:
+  primary: title
+  fields: [title, description, featured]
+  fields:
+
+  * name: title
+    label: Project Title
+    type: string
+    required: true
+  * name: description
+    label: Description
+    type: text
+  * name: image
+    label: Project Image
+    type: image
+    required: false
+  * name: tags
+    label: Tags
+    type: string
+    list: true
+  * name: featured
+    label: Feature on Homepage
+    type: boolean
+  * name: published
+    label: Published
+    type: boolean
+  * name: body
+    label: Project Details
+    type: rich-text
+    required: false
+  * name: resources
+    label: Project Resources
+    type: object
+    list: true
     fields:
-      - name: title
-        label: Project Title
-        type: string
 
-      - name: description
-        label: Description
-        type: text
+    * name: label
+      label: Resource Name
+      type: string
+    * name: file
+      label: Uploaded File
+      type: file
+    * name: url
+      label: External Link
+      type: string
+    * name: preview
+      label: Document Preview Image
+      type: image
+      required: false
 
-      - name: image
-        label: Project Image
-        type: image
-        required: false
+* name: experiments
+  label: Experiments
+  type: collection
+  path: _experiments
+  filename: "{primary}.md"
+  format: yaml-frontmatter
+  view:
+  primary: title
+  fields: [title, description, status]
+  fields:
 
-      - name: video
-        label: Video URL
-        type: string
-        required: false
+  * name: title
+    label: Experiment Title
+    type: string
+    required: true
+  * name: description
+    label: Description
+    type: text
+  * name: status
+    label: Status
+    type: string
+  * name: image
+    label: Image
+    type: image
+    required: false
+  * name: tags
+    label: Tags
+    type: string
+    list: true
+  * name: published
+    label: Published
+    type: boolean
+  * name: body
+    label: Details
+    type: rich-text
+    required: false
 
-      - name: body
-        label: Project Details
-        type: rich-text
-        required: false
-
-      - name: resources
-        label: Project Resources
-        type: object
-        list: true
-        fields:
-          - name: label
-            label: Resource Name
-            type: string
-
-          - name: file
-            label: Uploaded File
-            type: file
-
-          - name: url
-            label: External Link
-            type: string
-
-          - name: preview
-            label: Document Preview Image
-            type: image
-            required: false
