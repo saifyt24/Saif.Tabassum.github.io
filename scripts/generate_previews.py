@@ -16,6 +16,9 @@ SUPPORTED_EXTENSIONS = {
 
 def generate_preview(source):
     preview = PREVIEW_DIR / (source.name + ".png")
+    if preview.exists():
+    print(f"Preview already exists: {preview}")
+    return
     PREVIEW_DIR.mkdir(parents=True, exist_ok=True)
 
     try:
