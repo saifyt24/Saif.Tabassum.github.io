@@ -102,7 +102,7 @@ content:
     label: Blog
     type: collection
     path: _posts
-    filename: "{primary}.md"
+    filename: "{year}-{month}-{day}-{primary}.md"
     format: yaml-frontmatter
     view:
       primary: title
