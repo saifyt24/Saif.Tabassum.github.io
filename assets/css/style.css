@@ -598,3 +598,20 @@ p {
     animation-iteration-count: 1 !important;
   }
 }
+
+/* Remove bullets from project file previews */
+.project-resources ul {
+  list-style: none;
+  padding-left: 0;
+  margin-left: 0;
+}
+
+.project-resources li {
+  list-style: none;
+  margin-bottom: 18px;
+}
+
+.project-resources li::before {
+  content: none !important;
+  display: none !important;
+}
