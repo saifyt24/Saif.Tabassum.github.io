@@ -600,18 +600,19 @@ p {
 }
 
 /* Remove bullets from project file previews */
-.project-resources ul {
-  list-style: none;
-  padding-left: 0;
-  margin-left: 0;
+.project-detail .project-resources ul,
+.project-detail .project-resources li {
+  list-style: none !important;
+  list-style-type: none !important;
 }
 
-.project-resources li {
-  list-style: none;
-  margin-bottom: 18px;
+.project-detail .project-resources ul {
+  padding-left: 0 !important;
+  margin-left: 0 !important;
 }
 
-.project-resources li::before {
+.project-detail .project-resources li::before,
+.project-detail .project-resources li::marker {
   content: none !important;
   display: none !important;
 }
