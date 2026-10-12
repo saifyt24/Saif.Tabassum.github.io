@@ -36,7 +36,7 @@ layout: default
             {% if resource.file %}
               {% assign resource_filename = resource.file | split: "/" | last %}
               {% assign resource_extension = resource.file | split: "." | last | downcase %}
-              {% assign preview_extensions = "pdf xlsx xls docx doc pptx ppt odt ods" | split: " " %}
+              {% assign preview_extensions = "pdf xlsx xls xlsm docx doc pptx ppt odt ods" | split: " " %}
               {% assign auto_preview = "/images/previews/" | append: resource_filename | append: ".png" %}
               {% assign preview_image = resource.preview | default: auto_preview %}
 
@@ -48,11 +48,12 @@ layout: default
                     loading="lazy"
                   >
                 </a>
+              {% else %}
+                <a href="{{ resource.file | relative_url }}">
+                  {{ resource.label | default: resource.file | escape }}
+                </a>
               {% endif %}
 
-              <a href="{{ resource.file | relative_url }}">
-                {{ resource.label | default: resource.file | escape }}
-              </a>
             {% elsif resource.url %}
               <a href="{{ resource.url | escape }}" target="_blank" rel="noopener noreferrer">
                 {{ resource.label | default: resource.url | escape }}
