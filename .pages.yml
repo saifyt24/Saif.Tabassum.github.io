@@ -44,7 +44,7 @@ content:
         type: rich-text
         required: false
       - name: resources
-        label: Project Resources
+        label: Project File
         type: object
         list: true
         fields:
