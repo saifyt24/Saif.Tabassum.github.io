@@ -1,31 +1,15 @@
-
 name: Generate Document Previews
 
 on:
   workflow_dispatch:
-  
+
   push:
     paths:
       - '_projects/**'
       - 'content/projects/**'
-      - 'images/*.pdf'
-      - 'images/*.xlsx'
-      - 'images/*.xls'
-      - 'images/*.docx'
-      - 'images/*.doc'
-      - 'images/*.pptx'
-      - 'images/*.ppt'
-      - 'images/*.odt'
-      - 'images/*.ods'
-      - 'images/**/*.pdf'
-      - 'images/**/*.xlsx'
-      - 'images/**/*.xls'
-      - 'images/**/*.docx'
-      - 'images/**/*.doc'
-      - 'images/**/*.pptx'
-      - 'images/**/*.ppt'
-      - 'images/**/*.odt'
-      - 'images/**/*.ods'
+      - 'images/**'
+      - 'scripts/generate_previews.py'
+      - '.github/workflows/**'
 
 permissions:
   contents: write
@@ -39,7 +23,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.ref_name }}
-          
+
       - name: Install conversion tools
         run: |
           sudo apt-get update
