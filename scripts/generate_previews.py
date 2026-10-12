@@ -30,7 +30,7 @@ def generate_preview(source):
             else:
                 extension = source.suffix.lower()
 
-                if extension in {".xlsx", ".xls", ".ods"}:
+                if extension in {".xlsx", ".xls", ".xlsm", ".ods"}:
                     export_filter = (
                         'pdf:calc_pdf_Export:'
                         '{"SinglePageSheets":{"type":"boolean","value":"true"}}'
