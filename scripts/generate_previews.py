@@ -9,10 +9,9 @@ MEDIA_DIR = ROOT / "images"
 PREVIEW_DIR = MEDIA_DIR / "previews"
 
 SUPPORTED_EXTENSIONS = {
-    ".pdf", ".xlsx", ".xls", ".docx", ".doc",
+    ".pdf", ".xlsx", ".xls", ".xlsm", ".docx", ".doc",
     ".pptx", ".ppt", ".odt", ".ods"
 }
-
 
 def generate_preview(source):
     preview = PREVIEW_DIR / (source.name + ".png")
