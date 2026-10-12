@@ -2,10 +2,12 @@ media:
   - name: images
     input: images
     output: /images
+
   - name: resume
     input: resume
     output: /resume
-    extensions: [pdf]
+    extensions:
+      - pdf
 
 content:
   - name: projects
@@ -16,33 +18,43 @@ content:
     format: yaml-frontmatter
     view:
       primary: title
-      fields: [title, description, featured]
+      fields:
+        - title
+        - description
+        - featured
     fields:
       - name: title
         label: Project Title
         type: string
         required: true
+
       - name: description
         label: Description
         type: text
+
       - name: image
         label: Project Image
         type: image
         required: false
+
       - name: tags
         label: Tags
         type: string
         list: true
+
       - name: featured
         label: Feature on Homepage
         type: boolean
+
       - name: published
         label: Published
         type: boolean
+
       - name: body
         label: Project Details
         type: rich-text
         required: false
+
       - name: resources
         label: Project File
         type: object
@@ -51,12 +63,15 @@ content:
           - name: label
             label: Resource Name
             type: string
+
           - name: file
             label: Uploaded File
             type: file
+
           - name: url
             label: External Link
             type: string
+
           - name: preview
             label: Document Preview Image
             type: image
@@ -70,29 +85,38 @@ content:
     format: yaml-frontmatter
     view:
       primary: title
-      fields: [title, description, status]
+      fields:
+        - title
+        - description
+        - status
     fields:
       - name: title
         label: Experiment Title
         type: string
         required: true
+
       - name: description
         label: Description
         type: text
+
       - name: status
         label: Status
         type: string
+
       - name: image
         label: Image
         type: image
         required: false
+
       - name: tags
         label: Tags
         type: string
         list: true
+
       - name: published
         label: Published
         type: boolean
+
       - name: body
         label: Details
         type: rich-text
@@ -106,8 +130,12 @@ content:
     format: yaml-frontmatter
     view:
       primary: title
-      fields: [title, date, published]
-      sort: [date]
+      fields:
+        - title
+        - date
+        - published
+      sort:
+        - date
       default:
         sort: date
         order: desc
@@ -116,20 +144,25 @@ content:
         label: Article Title
         type: string
         required: true
+
       - name: date
         label: Publication Date
         type: date
         required: true
+
       - name: description
         label: Short Summary
         type: text
+
       - name: tags
         label: Tags
         type: string
         list: true
+
       - name: published
         label: Published
         type: boolean
+
       - name: body
         label: Article Content
         type: rich-text
@@ -146,5 +179,6 @@ content:
         required: true
         options:
           media: resume
-          extensions: [pdf]
+          extensions:
+            - pdf
           rename: false
