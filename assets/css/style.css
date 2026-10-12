@@ -1,36 +1,36 @@
 
 /* ==================================================
-   SAIF TABASSUM — PORTFOLIO DESIGN SYSTEM
+   SAIF TABASSUM — CORPORATE MOTION DESIGN SYSTEM
    ================================================== */
 
 :root {
   color-scheme: dark;
-  --bg: #0b0c0f;
-  --surface: #121419;
-  --surface-hover: #191c23;
-  --text: #f2f3f5;
-  --muted: #a0a5b0;
-  --border: #292d36;
-  --accent: #a8b8ff;
-  --accent-contrast: #0b0c0f;
-  --header-bg: rgba(11, 12, 15, 0.86);
-  --shadow: 0 14px 40px rgba(0, 0, 0, 0.18);
+  --bg: #0b1220;
+  --surface: #111d31;
+  --surface-hover: #192a43;
+  --text: #f1f5f9;
+  --muted: #a3b0c3;
+  --border: #293950;
+  --accent: #60a5fa;
+  --accent-contrast: #08111f;
+  --header-bg: rgba(11, 18, 32, 0.82);
+  --shadow: 0 18px 50px rgba(0, 0, 0, 0.24);
   --radius: 16px;
   --content-width: 1120px;
 }
 
 :root[data-theme="light"] {
   color-scheme: light;
-  --bg: #f7f8fa;
+  --bg: #f5f7fb;
   --surface: #ffffff;
-  --surface-hover: #eef0f5;
-  --text: #17191f;
-  --muted: #606673;
-  --border: #dfe2e8;
-  --accent: #4059c7;
+  --surface-hover: #edf3fc;
+  --text: #172338;
+  --muted: #5d6b80;
+  --border: #dce4ef;
+  --accent: #2563eb;
   --accent-contrast: #ffffff;
-  --header-bg: rgba(247, 248, 250, 0.88);
-  --shadow: 0 14px 40px rgba(20, 25, 40, 0.06);
+  --header-bg: rgba(245, 247, 251, 0.86);
+  --shadow: 0 18px 45px rgba(23, 35, 56, 0.08);
 }
 
 * {
@@ -43,6 +43,8 @@ html {
 }
 
 body {
+  position: relative;
+  isolation: isolate;
   margin: 0;
   background: var(--bg);
   color: var(--text);
@@ -51,12 +53,59 @@ body {
   font-size: 16px;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
-  transition: background 180ms ease, color 180ms ease;
+  transition: background 250ms ease, color 250ms ease;
+}
+
+/* Ambient background glow */
+
+body::before {
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse at 12% 8%,
+      rgba(37, 99, 235, 0.13),
+      transparent 36%
+    ),
+    radial-gradient(
+      ellipse at 88% 36%,
+      rgba(56, 189, 248, 0.07),
+      transparent 32%
+    );
+  background-size: 140% 140%;
+  animation: ambient-drift 22s ease-in-out infinite alternate;
+}
+
+:root[data-theme="light"] body::before {
+  background:
+    radial-gradient(
+      ellipse at 12% 8%,
+      rgba(37, 99, 235, 0.07),
+      transparent 36%
+    ),
+    radial-gradient(
+      ellipse at 88% 36%,
+      rgba(56, 189, 248, 0.045),
+      transparent 32%
+    );
+}
+
+@keyframes ambient-drift {
+  from {
+    background-position: 0% 0%;
+  }
+  to {
+    background-position: 100% 70%;
+  }
 }
 
 a {
   color: var(--accent);
   text-decoration: none;
+  transition: color 180ms ease;
 }
 
 a:hover {
@@ -99,8 +148,9 @@ select:focus-visible {
   padding: 12px max(24px, calc((100vw - var(--content-width)) / 2));
   border-bottom: 1px solid var(--border);
   background: var(--header-bg);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  transition: border-color 200ms ease, background 200ms ease;
 }
 
 .site-brand {
@@ -109,9 +159,11 @@ select:focus-visible {
   font-size: 17px;
   font-weight: 750;
   letter-spacing: -0.5px;
+  transition: color 180ms ease;
 }
 
 .site-brand:hover {
+  color: var(--accent);
   text-decoration: none;
 }
 
@@ -127,16 +179,35 @@ select:focus-visible {
 }
 
 .site-nav > a {
+  position: relative;
   color: var(--muted);
   font-size: 13px;
   font-weight: 600;
   white-space: nowrap;
-  transition: color 150ms ease;
+  transition: color 180ms ease;
+}
+
+.site-nav > a::after {
+  position: absolute;
+  right: 0;
+  bottom: -7px;
+  left: 0;
+  height: 2px;
+  border-radius: 2px;
+  content: "";
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 180ms ease;
 }
 
 .site-nav > a:hover {
   color: var(--text);
   text-decoration: none;
+}
+
+.site-nav > a:hover::after {
+  transform: scaleX(1);
 }
 
 .theme-toggle {
@@ -149,9 +220,11 @@ select:focus-visible {
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
+  transition: border-color 180ms ease, background 180ms ease;
 }
 
 .theme-toggle:hover {
+  border-color: var(--accent);
   background: var(--surface-hover);
 }
 
@@ -181,6 +254,18 @@ select:focus-visible {
   min-height: calc(100vh - 160px);
   margin: 0 auto;
   padding: 76px 0 100px;
+  animation: page-arrive 550ms ease both;
+}
+
+@keyframes page-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .page-heading {
@@ -210,6 +295,7 @@ h1 {
   margin-bottom: 22px;
   font-size: clamp(38px, 6vw, 68px);
   font-weight: 750;
+  text-wrap: balance;
 }
 
 h2 {
@@ -276,24 +362,32 @@ p {
   color: var(--text);
   font-size: 14px;
   font-weight: 650;
-  transition: transform 150ms ease, background 150ms ease;
+  transition:
+    transform 180ms ease,
+    background 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
 }
 
 .button:hover {
+  border-color: var(--accent);
   background: var(--surface-hover);
+  box-shadow: 0 5px 22px rgba(96, 165, 250, 0.08);
   text-decoration: none;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
 .button-primary {
   border-color: var(--accent);
   background: var(--accent);
   color: var(--accent-contrast);
+  box-shadow: 0 5px 22px rgba(96, 165, 250, 0.12);
 }
 
 .button-primary:hover {
-  opacity: 0.9;
   background: var(--accent);
+  box-shadow: 0 8px 28px rgba(96, 165, 250, 0.22);
+  opacity: 0.94;
 }
 
 /* Cards and grids */
@@ -305,17 +399,46 @@ p {
 }
 
 .card {
+  position: relative;
   min-width: 0;
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--surface);
-  transition: transform 180ms ease, border-color 180ms ease;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+  transition:
+    transform 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    background 220ms ease;
+}
+
+.card::before {
+  position: absolute;
+  top: 0;
+  right: 15%;
+  left: 15%;
+  height: 1px;
+  content: "";
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--accent),
+    transparent
+  );
+  opacity: 0;
+  transition: opacity 220ms ease;
 }
 
 .card:hover {
-  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
-  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+  background: var(--surface-hover);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+  transform: translateY(-5px);
+}
+
+.card:hover::before {
+  opacity: 0.8;
 }
 
 .card-content {
@@ -343,6 +466,11 @@ p {
   max-height: 260px;
   object-fit: cover;
   border-bottom: 1px solid var(--border);
+  transition: transform 350ms ease;
+}
+
+.card:hover .card-image {
+  transform: scale(1.015);
 }
 
 .resource-preview {
@@ -351,6 +479,12 @@ p {
   border: 1px solid var(--border);
   border-radius: 10px;
   background: var(--bg);
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.resource-preview:hover {
+  border-color: var(--accent);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
 .resource-preview img {
@@ -378,6 +512,12 @@ p {
   color: var(--muted);
   font-size: 11px;
   font-weight: 650;
+  transition: border-color 180ms ease, color 180ms ease;
+}
+
+.tag:hover {
+  border-color: var(--accent);
+  color: var(--text);
 }
 
 .status {
@@ -453,6 +593,14 @@ p {
   border-radius: 10px;
   background: var(--surface);
   color: var(--text);
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.content-tools input:focus,
+.content-tools select:focus,
+.search-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
 }
 
 .content-tools input {
@@ -588,18 +736,8 @@ p {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    scroll-behavior: auto !important;
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-  }
-}
-
 /* Remove bullets from project file previews */
+
 .project-detail .project-resources ul,
 .project-detail .project-resources li {
   list-style: none !important;
@@ -615,4 +753,20 @@ p {
 .project-detail .project-resources li::marker {
   content: none !important;
   display: none !important;
+}
+
+/* Accessibility: respect reduced-motion preferences */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
