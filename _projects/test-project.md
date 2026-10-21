@@ -9,5 +9,5 @@ tags:
 featured: true
 published: true
 resources:
-  - file: /images/Personal Budget Planner-2.xlsx
+  - file: /images/Personal Budget Planner.xlsx
 ---
