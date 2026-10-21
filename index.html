@@ -1,18 +1,19 @@
 ---
 layout: default
 title: Home
-description: Projects, writing, and experiments by Saif Tabassum.
+description: Finance, data analysis, and practical projects by Saif Tabassum.
 ---
 
 <section class="hero">
-  <p class="eyebrow">Portfolio · Analysis · Technology</p>
-  <h1>Building at the intersection of finance, data, and AI.</h1>
+  <p class="eyebrow">FINANCE · DATA ANALYSIS · TECHNOLOGY</p>
+  <h1>Turning financial data into practical insights.</h1>
   <p class="lead">
-    I'm Saif Tabassum. I explore ideas, build practical projects, and use
-    technology to make complex problems easier to understand.
+    I'm Saif Tabassum, a Commerce graduate specializing in Management Economics
+    and Finance. I'm interested in financial analysis, reporting, and using data
+    to make complex problems easier to understand.
   </p>
   <div class="button-row">
-    <a class="button button-primary" href="{{ '/projects/' | relative_url }}">Explore my work</a>
+    <a class="button button-primary" href="{{ '/projects/' | relative_url }}">Explore my projects</a>
     <a class="button" href="{{ '/about/' | relative_url }}">About me</a>
   </div>
 </section>
@@ -20,7 +21,51 @@ description: Projects, writing, and experiments by Saif Tabassum.
 <section class="section">
   <div class="section-header">
     <div>
-      <p class="eyebrow">Selected work</p>
+      <p class="eyebrow">WHAT I WORK ON</p>
+      <h2>Finance meets data</h2>
+    </div>
+  </div>
+
+  <div class="card-grid">
+    <article class="card">
+      <div class="card-content">
+        <p class="eyebrow">01 · FINANCE</p>
+        <h3>Financial analysis</h3>
+        <p class="card-description">
+          Exploring financial statements, performance metrics, budgeting,
+          forecasting, and the numbers behind business decisions.
+        </p>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-content">
+        <p class="eyebrow">02 · DATA</p>
+        <h3>Reporting and analytics</h3>
+        <p class="card-description">
+          Using Excel, SQL, and analytical tools to organize information,
+          identify patterns, and communicate useful findings.
+        </p>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="card-content">
+        <p class="eyebrow">03 · BUILDING</p>
+        <h3>Practical projects</h3>
+        <p class="card-description">
+          Creating useful dashboards, research projects, and tools that
+          connect financial concepts with real-world applications.
+        </p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <div>
+      <p class="eyebrow">SELECTED WORK</p>
       <h2>Featured projects</h2>
     </div>
     <a href="{{ '/projects/' | relative_url }}">All projects →</a>
@@ -46,7 +91,9 @@ description: Projects, writing, and experiments by Saif Tabassum.
         </div>
       </article>
     {% else %}
-      <p class="muted">Featured projects will appear here as you publish them.</p>
+      <p class="muted">
+        Finance and analytics projects will appear here as they are developed.
+      </p>
     {% endfor %}
   </div>
 </section>
@@ -54,7 +101,56 @@ description: Projects, writing, and experiments by Saif Tabassum.
 <section class="section">
   <div class="section-header">
     <div>
-      <p class="eyebrow">Ideas and insights</p>
+      <p class="eyebrow">RESEARCH IN PROGRESS</p>
+      <h2>Markets and investment research</h2>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-content">
+      <h3>Understanding businesses beyond the share price</h3>
+      <p class="card-description">
+        A developing research area focused on company fundamentals, financial
+        performance, valuation, and the factors that influence investment
+        decisions. Future entries may include company breakdowns, financial
+        metrics, and data-driven comparisons.
+      </p>
+      <p class="muted">
+        Research and educational analysis only; not investment advice.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <div>
+      <p class="eyebrow">TOOLS AND SKILLS</p>
+      <h2>My analytical toolkit</h2>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-content">
+      <ul class="tag-list">
+        <li class="tag">Excel</li>
+        <li class="tag">PivotTables</li>
+        <li class="tag">Financial analysis</li>
+        <li class="tag">Reporting</li>
+        <li class="tag">Stata</li>
+        <li class="tag">Python</li>
+        <li class="tag">R</li>
+        <li class="tag">SQL · developing</li>
+        <li class="tag">QuickBooks · developing</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <div>
+      <p class="eyebrow">IDEAS AND INSIGHTS</p>
       <h2>Recent writing</h2>
     </div>
     <a href="{{ '/blog/' | relative_url }}">All writing →</a>
@@ -79,7 +175,7 @@ description: Projects, writing, and experiments by Saif Tabassum.
 <section class="section">
   <div class="section-header">
     <div>
-      <p class="eyebrow">Things I'm exploring</p>
+      <p class="eyebrow">THINGS I'M EXPLORING</p>
       <h2>Experiments</h2>
     </div>
     <a href="{{ '/experiments/' | relative_url }}">All experiments →</a>
@@ -100,5 +196,22 @@ description: Projects, writing, and experiments by Saif Tabassum.
     {% else %}
       <p class="muted">New experiments will appear here as they take shape.</p>
     {% endfor %}
+  </div>
+</section>
+
+<section class="section">
+  <div class="card">
+    <div class="card-content">
+      <p class="eyebrow">LET'S CONNECT</p>
+      <h2>Interested in my work?</h2>
+      <p class="card-description">
+        Explore my projects, learn more about my background, or get in touch
+        about finance, reporting, and analytical opportunities.
+      </p>
+      <div class="button-row">
+        <a class="button button-primary" href="{{ '/resume/' | relative_url }}">View my resume</a>
+        <a class="button" href="{{ '/contact/' | relative_url }}">Contact me</a>
+      </div>
+    </div>
   </div>
 </section>
