@@ -1,19 +1,19 @@
-
 /* ==================================================
    SAIF TABASSUM — CORPORATE MOTION DESIGN SYSTEM
+   Soft Flowing Light Edition
    ================================================== */
 
 :root {
   color-scheme: dark;
-  --bg: #0b1220;
-  --surface: #111d31;
-  --surface-hover: #192a43;
+  --bg: #0b101a;
+  --surface: #111d2d;
+  --surface-hover: #19283c;
   --text: #f1f5f9;
   --muted: #a3b0c3;
-  --border: #293950;
+  --border: #29384c;
   --accent: #60a5fa;
   --accent-contrast: #08111f;
-  --header-bg: rgba(11, 18, 32, 0.82);
+  --header-bg: rgba(11, 16, 26, 0.82);
   --shadow: 0 18px 50px rgba(0, 0, 0, 0.24);
   --radius: 16px;
   --content-width: 1120px;
@@ -56,49 +56,81 @@ body {
   transition: background 250ms ease, color 250ms ease;
 }
 
-/* Ambient background glow */
+/* ==================================================
+   SOFT FLOWING LIGHT BACKGROUND
+   Slow-moving, blurred light behind page content
+   ================================================== */
 
 body::before {
   position: fixed;
   z-index: -1;
-  inset: 0;
+  inset: -20%;
   content: "";
   pointer-events: none;
   background:
     radial-gradient(
-      ellipse at 12% 8%,
-      rgba(37, 99, 235, 0.13),
-      transparent 36%
+      ellipse at 18% 30%,
+      rgba(37, 99, 235, 0.19) 0%,
+      rgba(37, 99, 235, 0.07) 22%,
+      transparent 48%
     ),
     radial-gradient(
-      ellipse at 88% 36%,
-      rgba(56, 189, 248, 0.07),
-      transparent 32%
+      ellipse at 78% 42%,
+      rgba(56, 140, 220, 0.13) 0%,
+      rgba(56, 140, 220, 0.045) 25%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at 52% 82%,
+      rgba(79, 70, 229, 0.09) 0%,
+      transparent 43%
     );
-  background-size: 140% 140%;
-  animation: ambient-drift 22s ease-in-out infinite alternate;
+  background-size: 145% 145%;
+  background-position: 0% 0%;
+  animation: flowing-light 32s ease-in-out infinite alternate;
+  will-change: background-position;
 }
 
 :root[data-theme="light"] body::before {
   background:
     radial-gradient(
-      ellipse at 12% 8%,
-      rgba(37, 99, 235, 0.07),
-      transparent 36%
+      ellipse at 18% 30%,
+      rgba(37, 99, 235, 0.105) 0%,
+      rgba(37, 99, 235, 0.035) 24%,
+      transparent 48%
     ),
     radial-gradient(
-      ellipse at 88% 36%,
-      rgba(56, 189, 248, 0.045),
-      transparent 32%
+      ellipse at 78% 42%,
+      rgba(56, 140, 220, 0.075) 0%,
+      rgba(56, 140, 220, 0.025) 25%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at 52% 82%,
+      rgba(79, 70, 229, 0.045) 0%,
+      transparent 43%
     );
 }
 
-@keyframes ambient-drift {
-  from {
-    background-position: 0% 0%;
+@keyframes flowing-light {
+  0% {
+    background-position: 0% 5%;
   }
-  to {
-    background-position: 100% 70%;
+
+  25% {
+    background-position: 35% 25%;
+  }
+
+  50% {
+    background-position: 75% 55%;
+  }
+
+  75% {
+    background-position: 45% 80%;
+  }
+
+  100% {
+    background-position: 100% 35%;
   }
 }
 
@@ -262,6 +294,7 @@ select:focus-visible {
     opacity: 0;
     transform: translateY(8px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -768,5 +801,6 @@ p {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
