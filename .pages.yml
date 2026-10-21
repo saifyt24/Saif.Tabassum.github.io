@@ -179,6 +179,78 @@ content:
         label: Article Content
         type: rich-text
 
+  - name: employment
+    label: Employment Record
+    type: collection
+    path: _employment
+    filename: "{primary}.md"
+    format: yaml-frontmatter
+    view:
+      primary: job_title
+      fields:
+        - job_title
+        - company
+        - start_date
+        - end_date
+      sort:
+        - start_date
+      default:
+        sort: start_date
+        order: desc
+    fields:
+      - name: job_title
+        label: Job Title
+        type: string
+        required: true
+
+      - name: company
+        label: Company / Employer
+        type: string
+        required: true
+
+      - name: employment_type
+        label: Employment Type
+        type: string
+
+      - name: location
+        label: Location
+        type: string
+
+      - name: start_date
+        label: Start Date
+        type: date
+        required: true
+
+      - name: end_date
+        label: End Date
+        type: date
+
+      - name: current
+        label: Currently Employed
+        type: boolean
+
+      - name: description
+        label: Job Description
+        type: text
+        required: true
+
+      - name: responsibilities
+        label: Responsibilities and Achievements
+        type: string
+        list: true
+
+      - name: reason_for_leaving
+        label: Reason for Leaving
+        type: text
+
+      - name: company_website
+        label: Company Website
+        type: string
+
+      - name: body
+        label: Additional Notes
+        type: rich-text
+
   - name: resume
     label: Resume
     type: file
