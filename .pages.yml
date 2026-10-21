@@ -89,6 +89,7 @@ content:
         - title
         - description
         - status
+        - featured
     fields:
       - name: title
         label: Experiment Title
@@ -117,12 +118,16 @@ content:
         label: Published
         type: boolean
 
+      - name: featured
+        label: Feature on Homepage
+        type: boolean
+
       - name: body
         label: Details
         type: rich-text
         required: false
 
-   - name: posts
+  - name: posts
     label: Blog
     type: collection
     path: _posts
@@ -136,6 +141,7 @@ content:
         - title
         - date
         - published
+        - featured
       sort:
         - date
       default:
@@ -163,6 +169,10 @@ content:
 
       - name: published
         label: Published
+        type: boolean
+
+      - name: featured
+        label: Feature on Homepage
         type: boolean
 
       - name: body
