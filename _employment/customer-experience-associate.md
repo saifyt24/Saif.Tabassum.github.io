@@ -1,7 +1,7 @@
 ---
 job_title: Customer Experience Associate
 company: TD Canada Trust
-record_category: Long-term Employment
+record_category: Relevant Employment
 employment_type: Part-Time
 location: Brantford, ON
 start_date: 2025-08-11
