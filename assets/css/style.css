@@ -1344,3 +1344,146 @@ p {
     flex: 1 1 auto;
   }
 }
+
+
+/* ==================================================
+   LIVE INVESTMENT WATCHLIST — QUOTE DISPLAY
+   ================================================== */
+
+.watchlist-status {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.watchlist-quote {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  margin-top: 14px;
+}
+
+.watchlist-price {
+  color: var(--text);
+  font-size: 21px;
+  font-weight: 750;
+  line-height: 1.3;
+  letter-spacing: -0.5px;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+.watchlist-change {
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.watchlist-change.positive {
+  color: #34d399;
+}
+
+.watchlist-change.negative {
+  color: #f87171;
+}
+
+.watchlist-change.neutral {
+  color: var(--muted);
+}
+
+.watchlist-card .watchlist-quote-time {
+  margin: 10px 0 14px;
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+/* Keep the live quote link in normal document flow.
+   The original static cards positioned this link at the bottom. */
+
+.watchlist-card > a {
+  position: static;
+  display: inline-block;
+  margin-top: 2px;
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 650;
+  line-height: 1.5;
+}
+
+.watchlist-card > a:hover {
+  color: var(--text);
+}
+
+/* Ensure longer company names and prices fit within each card. */
+
+.watchlist-company {
+  min-width: 0;
+  align-items: center;
+}
+
+.watchlist-company > div:last-child {
+  flex: 1;
+  min-width: 0;
+}
+
+.watchlist-company strong {
+  overflow-wrap: anywhere;
+}
+
+.watchlist-company span {
+  overflow-wrap: anywhere;
+}
+
+.watchlist-logo {
+  flex-shrink: 0;
+  width: 35px;
+  height: 35px;
+  font-size: 12px;
+  letter-spacing: -0.3px;
+}
+
+/* Subtle entrance effect when rotating to another selection. */
+
+@keyframes watchlist-card-enter {
+  from {
+    opacity: 0.55;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.watchlist-card {
+  animation: watchlist-card-enter 250ms ease both;
+}
+
+/* Mobile layout */
+
+@media (max-width: 520px) {
+  .watchlist-card {
+    padding: 14px;
+  }
+
+  .watchlist-price {
+    font-size: 23px;
+  }
+
+  .watchlist-quote {
+    margin-top: 12px;
+  }
+}
+
+/* Respect reduced-motion preferences. */
+
+@media (prefers-reduced-motion: reduce) {
+  .watchlist-card {
+    animation: none;
+  }
+}
