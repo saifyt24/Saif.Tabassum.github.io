@@ -1,3 +1,4 @@
+
 ---
 layout: default
 title: Home
@@ -89,57 +90,35 @@ description: Finance, data analysis, and practical projects by Saif Tabassum.
   </div>
 </section>
 
+<!-- LIVE INVESTMENT WATCHLIST -->
 <section class="section home-section watchlist-section">
   <div class="section-header home-section-header">
     <div class="home-heading-group">
       <span class="section-icon">↗</span>
       <div>
         <h2>Investment Watchlist</h2>
-        <p>A selection of stocks and ETFs for research and analysis.</p>
+        <p>A rotating selection of stocks and ETFs for research and analysis.</p>
       </div>
     </div>
     <a class="button watchlist-link" href="{{ '/experiments/' | relative_url }}">View research →</a>
   </div>
 
-  <div class="watchlist-grid">
+  <div class="watchlist-grid" id="market-watchlist">
     <article class="watchlist-card">
-      <div class="watchlist-company">
-        <div class="watchlist-logo logo-apple">A</div>
-        <div><strong>Apple Inc.</strong><span>AAPL · Technology</span></div>
-      </div>
-      <p>Research focus: ecosystem strength, revenue growth, and services.</p>
-      <a href="https://investor.apple.com/" target="_blank" rel="noopener noreferrer" aria-label="Apple investor relations">→</a>
-    </article>
-
-    <article class="watchlist-card">
-      <div class="watchlist-company">
-        <div class="watchlist-logo logo-microsoft">M</div>
-        <div><strong>Microsoft Corp.</strong><span>MSFT · Technology</span></div>
-      </div>
-      <p>Research focus: cloud growth, recurring revenue, and profitability.</p>
-      <a href="https://www.microsoft.com/en-us/Investor/" target="_blank" rel="noopener noreferrer" aria-label="Microsoft investor relations">→</a>
-    </article>
-
-    <article class="watchlist-card">
-      <div class="watchlist-company">
-        <div class="watchlist-logo logo-voo">V</div>
-        <div><strong>Vanguard S&P 500 ETF</strong><span>VOO · ETF</span></div>
-      </div>
-      <p>Research focus: diversification, fees, and long-term market exposure.</p>
-      <a href="https://investor.vanguard.com/investment-products/etfs/profile/voo" target="_blank" rel="noopener noreferrer" aria-label="Vanguard VOO fund information">→</a>
-    </article>
-
-    <article class="watchlist-card">
-      <div class="watchlist-company">
-        <div class="watchlist-logo logo-shopify">S</div>
-        <div><strong>Shopify Inc.</strong><span>SHOP · E-commerce</span></div>
-      </div>
-      <p>Research focus: merchant growth, revenue trends, and operating margins.</p>
-      <a href="https://investors.shopify.com/" target="_blank" rel="noopener noreferrer" aria-label="Shopify investor relations">→</a>
+      <p>Loading market quotes…</p>
     </article>
   </div>
-  <p class="watchlist-disclaimer">Research watchlist only; not a record of personal holdings or investment advice.</p>
+
+  <p class="watchlist-status" id="watchlist-status" aria-live="polite">
+    Connecting to market data…
+  </p>
+
+  <p class="watchlist-disclaimer">
+    Quotes may be delayed. For research and educational purposes only;
+    this is not a record of personal holdings or investment advice.
+  </p>
 </section>
+<!-- END LIVE INVESTMENT WATCHLIST -->
 
 <section class="section home-section">
   <div class="section-header home-section-header">
@@ -235,3 +214,251 @@ description: Finance, data analysis, and practical projects by Saif Tabassum.
     <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">▣ &nbsp; LinkedIn <span>→</span></a>
   </div>
 </section>
+
+<script>
+(() => {
+  const grid = document.getElementById("market-watchlist");
+  const status = document.getElementById("watchlist-status");
+
+  if (!grid || !status) return;
+
+  const PROXY = "https://proxy.cors.dev/";
+  const REFRESH_MS = 5 * 60 * 1000;
+  const ROTATE_MS = 15 * 1000;
+
+  const stocks = [
+    { symbol: "AAPL", focus: "Technology" },
+    { symbol: "MSFT", focus: "Software & cloud" },
+    { symbol: "NVDA", focus: "AI & semiconductors" },
+    { symbol: "AMZN", focus: "E-commerce & cloud" },
+    { symbol: "GOOGL", focus: "Search & advertising" },
+    { symbol: "META", focus: "Social media & AI" },
+    { symbol: "TSLA", focus: "Electric vehicles" },
+    { symbol: "JPM", focus: "Banking & finance" },
+    { symbol: "SHOP", focus: "E-commerce software" },
+    { symbol: "COST", focus: "Retail" },
+    { symbol: "AMD", focus: "Semiconductors" },
+    { symbol: "WMT", focus: "Consumer staples" },
+    { symbol: "KO", focus: "Consumer staples" },
+    { symbol: "DIS", focus: "Media & entertainment" },
+    { symbol: "VOO", focus: "S&P 500 ETF" },
+    { symbol: "QQQ", focus: "Nasdaq-100 ETF" },
+    { symbol: "SPY", focus: "S&P 500 ETF" },
+    { symbol: "VTI", focus: "Total US market ETF" }
+  ];
+
+  let quotes = [];
+  let displayedSymbols = [];
+  let refreshing = false;
+
+  function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, char => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    })[char]);
+  }
+
+  function money(value, currency) {
+    try {
+      return new Intl.NumberFormat("en-CA", {
+        style: "currency",
+        currency: currency || "USD",
+        maximumFractionDigits: value < 1 ? 4 : 2
+      }).format(value);
+    } catch {
+      return `${currency || "USD"} ${value.toFixed(2)}`;
+    }
+  }
+
+  async function getQuote(stock) {
+    const target =
+      "https://query1.finance.yahoo.com/v8/finance/chart/" +
+      encodeURIComponent(stock.symbol) +
+      "?range=1d&interval=1d";
+
+    const response = await fetch(PROXY + target, {
+      credentials: "omit"
+    });
+
+    if (!response.ok) {
+      throw new Error("Quote unavailable for " + stock.symbol);
+    }
+
+    const data = await response.json();
+    const result = data?.chart?.result?.[0];
+    const meta = result?.meta;
+
+    if (!meta || !Number.isFinite(meta.regularMarketPrice)) {
+      throw new Error("No quote returned for " + stock.symbol);
+    }
+
+    const previousClose =
+      meta.chartPreviousClose ?? meta.previousClose;
+
+    const changePercent =
+      Number.isFinite(previousClose) && previousClose !== 0
+        ? ((meta.regularMarketPrice - previousClose) / previousClose) * 100
+        : null;
+
+    return {
+      symbol: stock.symbol,
+      name: meta.longName || meta.shortName || stock.symbol,
+      focus: stock.focus,
+      price: meta.regularMarketPrice,
+      changePercent,
+      currency: meta.currency || "USD",
+      quoteTime: meta.regularMarketTime
+        ? new Date(meta.regularMarketTime * 1000)
+        : null
+    };
+  }
+
+  function chooseFour() {
+    const pool = quotes.slice();
+
+    for (let i = pool.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+
+    let selected = pool.slice(0, 4);
+
+    // If possible, don't repeat the exact same group of four.
+    if (
+      selected.length === 4 &&
+      displayedSymbols.length === 4 &&
+      selected.every(q => displayedSymbols.includes(q.symbol))
+    ) {
+      const replacement = pool.find(
+        q => !displayedSymbols.includes(q.symbol)
+      );
+
+      if (replacement) selected[3] = replacement;
+    }
+
+    return selected;
+  }
+
+  function renderCards(items) {
+    grid.innerHTML = items.map(q => {
+      const change = q.changePercent;
+      const direction = change == null
+        ? "neutral"
+        : change > 0
+          ? "positive"
+          : change < 0
+            ? "negative"
+            : "neutral";
+
+      const changeText = change == null
+        ? "Change unavailable"
+        : `${change > 0 ? "+" : ""}${change.toFixed(2)}% vs. previous close`;
+
+      const initials = q.symbol.slice(0, 3);
+
+      const investorLinks = {
+        AAPL: "https://investor.apple.com/",
+        MSFT: "https://www.microsoft.com/en-us/Investor/",
+        VOO: "https://investor.vanguard.com/investment-products/etfs/profile/voo",
+        SHOP: "https://investors.shopify.com/"
+      };
+
+      const link = investorLinks[q.symbol];
+
+      return `
+        <article class="watchlist-card">
+          <div class="watchlist-company">
+            <div class="watchlist-logo">${escapeHTML(initials)}</div>
+            <div>
+              <strong>${escapeHTML(q.name)}</strong>
+              <span>${escapeHTML(q.symbol)} · ${escapeHTML(q.focus)}</span>
+            </div>
+          </div>
+
+          <div class="watchlist-quote">
+            <span class="watchlist-price">${escapeHTML(money(q.price, q.currency))}</span>
+            <span class="watchlist-change ${direction}">
+              ${escapeHTML(changeText)}
+            </span>
+          </div>
+
+          <p class="watchlist-quote-time">
+            ${q.quoteTime
+              ? "Quote time: " + escapeHTML(q.quoteTime.toLocaleString())
+              : "Quote time not provided"}
+          </p>
+
+          ${link
+            ? `<a href="${link}" target="_blank" rel="noopener noreferrer"
+                 aria-label="${escapeHTML(q.symbol)} investor information">Investor information →</a>`
+            : `<a href="https://finance.yahoo.com/quote/${encodeURIComponent(q.symbol)}/"
+                 target="_blank" rel="noopener noreferrer"
+                 aria-label="${escapeHTML(q.symbol)} market information">Market information →</a>`
+          }
+        </article>
+      `;
+    }).join("");
+  }
+
+  function rotateCards() {
+    if (!quotes.length) return;
+
+    const selected = chooseFour();
+    displayedSymbols = selected.map(q => q.symbol);
+    renderCards(selected);
+  }
+
+  async function refreshQuotes() {
+    if (refreshing) return;
+    refreshing = true;
+
+    if (!quotes.length) {
+      status.textContent = "Loading market quotes…";
+    }
+
+    try {
+      const results = await Promise.allSettled(
+        stocks.map(stock => getQuote(stock))
+      );
+
+      const successful = results
+        .filter(result => result.status === "fulfilled")
+        .map(result => result.value);
+
+      if (!successful.length) {
+        throw new Error("No quotes were returned.");
+      }
+
+      quotes = successful;
+      rotateCards();
+
+      const failedCount = stocks.length - successful.length;
+      const updatedAt = new Date().toLocaleTimeString();
+
+      status.textContent = failedCount
+        ? `Updated ${updatedAt}. ${failedCount} quotes unavailable.`
+        : `Quotes refreshed at ${updatedAt}. Market data may be delayed.`;
+    } catch (error) {
+      status.textContent = quotes.length
+        ? "Refresh failed. Showing the last successfully retrieved quotes."
+        : "Market quotes are temporarily unavailable. Please try again later.";
+
+      console.warn("Market watch update failed:", error);
+    } finally {
+      refreshing = false;
+    }
+  }
+
+  refreshQuotes();
+  setInterval(rotateCards, ROTATE_MS);
+  setInterval(refreshQuotes, REFRESH_MS);
+
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) refreshQuotes();
+  });
+})();
+</script>
+
