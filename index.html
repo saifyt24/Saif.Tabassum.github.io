@@ -4,86 +4,79 @@ title: Home
 description: Finance, data analysis, and practical projects by Saif Tabassum.
 ---
 
-<section class="hero">
-  <p class="eyebrow">FINANCE · DATA ANALYSIS · TECHNOLOGY</p>
-  <h1>Turning financial data into practical insights.</h1>
-  <p class="lead">
-    I'm Saif Tabassum, a Commerce graduate specializing in Management Economics
-    and Finance. I'm interested in financial analysis, reporting, and using data
-    to make complex problems easier to understand.
-  </p>
-  <div class="button-row">
-    <a class="button button-primary" href="{{ '/projects/' | relative_url }}">Explore my projects</a>
-    <a class="button" href="{{ '/about/' | relative_url }}">About me</a>
-  </div>
-</section>
-
-<section class="section">
-  <div class="section-header">
-    <div>
-      <p class="eyebrow">WHAT I WORK ON</p>
-      <h2>Finance meets data</h2>
+<section class="home-hero">
+  <div class="home-hero-copy">
+    <p class="eyebrow">Hi, I'm Saif</p>
+    <h1>Finance <span>•</span> Data <span>•</span> <strong>Impact</strong></h1>
+    <p class="lead">
+      I'm a finance and data enthusiast focused on building practical
+      solutions, analyzing data, and exploring opportunities in the world
+      of finance.
+    </p>
+    <div class="button-row">
+      <a class="button button-primary" href="{{ '/projects/' | relative_url }}">View My Projects&nbsp; →</a>
+      <a class="button" href="{{ '/resume/' | relative_url }}">↓ &nbsp; View Resume</a>
     </div>
   </div>
 
-  <div class="card-grid">
-    <article class="card">
-      <div class="card-content">
-        <p class="eyebrow">01 · FINANCE</p>
-        <h3>Financial analysis</h3>
-        <p class="card-description">
-          Exploring financial statements, performance metrics, budgeting,
-          forecasting, and the numbers behind business decisions.
-        </p>
+  <div class="home-hero-visual" role="img" aria-label="Illustration of a financial analytics dashboard">
+    <div class="hero-dashboard">
+      <div class="dashboard-top">
+        <span>FINANCIAL OVERVIEW</span>
+        <span class="dashboard-live">● ANALYTICS</span>
       </div>
-    </article>
-
-    <article class="card">
-      <div class="card-content">
-        <p class="eyebrow">02 · DATA</p>
-        <h3>Reporting and analytics</h3>
-        <p class="card-description">
-          Using Excel, SQL, and analytical tools to organize information,
-          identify patterns, and communicate useful findings.
-        </p>
+      <div class="dashboard-metrics">
+        <div><small>Revenue</small><strong>$128.4K</strong><span>+12.8%</span></div>
+        <div><small>Net margin</small><strong>24.6%</strong><span>+3.2%</span></div>
       </div>
-    </article>
-
-    <article class="card">
-      <div class="card-content">
-        <p class="eyebrow">03 · BUILDING</p>
-        <h3>Practical projects</h3>
-        <p class="card-description">
-          Creating useful dashboards, research projects, and tools that
-          connect financial concepts with real-world applications.
-        </p>
+      <div class="dashboard-chart">
+        <div class="chart-bars">
+          <i style="height: 28%"></i><i style="height: 43%"></i>
+          <i style="height: 35%"></i><i style="height: 59%"></i>
+          <i style="height: 50%"></i><i style="height: 72%"></i>
+          <i style="height: 65%"></i><i style="height: 88%"></i>
+          <i style="height: 76%"></i><i style="height: 100%"></i>
+        </div>
       </div>
-    </article>
+      <div class="dashboard-bottom">
+        <span>PERFORMANCE</span><span>MONTHLY REPORT</span>
+      </div>
+    </div>
+    <div class="hero-visual-overlay">
+      <span>Better Decisions.</span>
+      <span>Stronger Outcomes.</span>
+    </div>
   </div>
 </section>
 
-<section class="section">
-  <div class="section-header">
-    <div>
-      <p class="eyebrow">SELECTED WORK</p>
-      <h2>Featured projects</h2>
+<section class="section home-section">
+  <div class="section-header home-section-header">
+    <div class="home-heading-group">
+      <span class="section-icon">▦</span>
+      <div>
+        <h2>Featured Projects</h2>
+        <p>A selection of my work in finance, data, and analytics.</p>
+      </div>
     </div>
-    <a href="{{ '/projects/' | relative_url }}">All projects →</a>
+    <a href="{{ '/projects/' | relative_url }}">View all projects →</a>
   </div>
 
-  <div class="card-grid">
+  <div class="card-grid home-project-grid">
     {% assign featured_projects = site.projects | where: "featured", true | where_exp: "project", "project.published != false" | where_exp: "project", "project.draft != true" %}
-    {% for project in featured_projects limit: 3 %}
-      <article class="card">
+    {% for project in featured_projects limit: 4 %}
+      <article class="card home-project-card">
         {% if project.image %}
           <img class="card-image" src="{{ project.image | relative_url }}" alt="{{ project.title | escape }}">
+        {% else %}
+          <div class="project-placeholder"><span>▤</span><small>PROJECT</small></div>
         {% endif %}
         <div class="card-content">
+          <span class="home-featured-label">Featured</span>
           <h3><a href="{{ project.url | relative_url }}">{{ project.title | escape }}</a></h3>
           <p class="card-description">{{ project.description | escape }}</p>
           {% if project.tags %}
             <ul class="tag-list">
-              {% for tag in project.tags %}
+              {% for tag in project.tags limit: 3 %}
                 <li class="tag">{{ tag | escape }}</li>
               {% endfor %}
             </ul>
@@ -91,127 +84,154 @@ description: Finance, data analysis, and practical projects by Saif Tabassum.
         </div>
       </article>
     {% else %}
-      <p class="muted">
-        Finance and analytics projects will appear here as they are developed.
-      </p>
+      <p class="muted">Your featured projects will appear here as you publish them.</p>
     {% endfor %}
   </div>
 </section>
 
-<section class="section">
-  <div class="section-header">
-    <div>
-      <p class="eyebrow">RESEARCH IN PROGRESS</p>
-      <h2>Markets and investment research</h2>
+<section class="section home-section watchlist-section">
+  <div class="section-header home-section-header">
+    <div class="home-heading-group">
+      <span class="section-icon">↗</span>
+      <div>
+        <h2>Investment Watchlist</h2>
+        <p>A selection of stocks and ETFs for research and analysis.</p>
+      </div>
     </div>
+    <a class="button watchlist-link" href="{{ '/experiments/' | relative_url }}">View research →</a>
   </div>
 
-  <div class="card">
-    <div class="card-content">
-      <h3>Understanding businesses beyond the share price</h3>
-      <p class="card-description">
-        A developing research area focused on company fundamentals, financial
-        performance, valuation, and the factors that influence investment
-        decisions. Future entries may include company breakdowns, financial
-        metrics, and data-driven comparisons.
-      </p>
-      <p class="muted">
-        Research and educational analysis only; not investment advice.
-      </p>
-    </div>
+  <div class="watchlist-grid">
+    <article class="watchlist-card">
+      <div class="watchlist-company">
+        <div class="watchlist-logo logo-apple">A</div>
+        <div><strong>Apple Inc.</strong><span>AAPL · Technology</span></div>
+      </div>
+      <p>Research focus: ecosystem strength, revenue growth, and services.</p>
+      <a href="https://investor.apple.com/" target="_blank" rel="noopener noreferrer" aria-label="Apple investor relations">→</a>
+    </article>
+
+    <article class="watchlist-card">
+      <div class="watchlist-company">
+        <div class="watchlist-logo logo-microsoft">M</div>
+        <div><strong>Microsoft Corp.</strong><span>MSFT · Technology</span></div>
+      </div>
+      <p>Research focus: cloud growth, recurring revenue, and profitability.</p>
+      <a href="https://www.microsoft.com/en-us/Investor/" target="_blank" rel="noopener noreferrer" aria-label="Microsoft investor relations">→</a>
+    </article>
+
+    <article class="watchlist-card">
+      <div class="watchlist-company">
+        <div class="watchlist-logo logo-voo">V</div>
+        <div><strong>Vanguard S&P 500 ETF</strong><span>VOO · ETF</span></div>
+      </div>
+      <p>Research focus: diversification, fees, and long-term market exposure.</p>
+      <a href="https://investor.vanguard.com/investment-products/etfs/profile/voo" target="_blank" rel="noopener noreferrer" aria-label="Vanguard VOO fund information">→</a>
+    </article>
+
+    <article class="watchlist-card">
+      <div class="watchlist-company">
+        <div class="watchlist-logo logo-shopify">S</div>
+        <div><strong>Shopify Inc.</strong><span>SHOP · E-commerce</span></div>
+      </div>
+      <p>Research focus: merchant growth, revenue trends, and operating margins.</p>
+      <a href="https://investors.shopify.com/" target="_blank" rel="noopener noreferrer" aria-label="Shopify investor relations">→</a>
+    </article>
   </div>
+  <p class="watchlist-disclaimer">Research watchlist only; not a record of personal holdings or investment advice.</p>
 </section>
 
-<section class="section">
-  <div class="section-header">
-    <div>
-      <p class="eyebrow">TOOLS AND SKILLS</p>
-      <h2>My analytical toolkit</h2>
+<section class="section home-section">
+  <div class="section-header home-section-header">
+    <div class="home-heading-group">
+      <span class="section-icon">✎</span>
+      <div>
+        <h2>Recent Writing</h2>
+        <p>Ideas, lessons, and observations.</p>
+      </div>
     </div>
+    <a href="{{ '/blog/' | relative_url }}">View all writing →</a>
   </div>
 
-  <div class="card">
-    <div class="card-content">
-      <ul class="tag-list">
-        <li class="tag">Excel</li>
-        <li class="tag">PivotTables</li>
-        <li class="tag">Financial analysis</li>
-        <li class="tag">Reporting</li>
-        <li class="tag">Stata</li>
-        <li class="tag">Python</li>
-        <li class="tag">R</li>
-        <li class="tag">SQL · developing</li>
-        <li class="tag">QuickBooks · developing</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="section-header">
-    <div>
-      <p class="eyebrow">IDEAS AND INSIGHTS</p>
-      <h2>Recent writing</h2>
-    </div>
-    <a href="{{ '/blog/' | relative_url }}">All writing →</a>
-  </div>
-
-  <div class="card-grid">
-    {% assign published_posts = site.posts | where: "featured", true | where_exp: "post", "post.published != false" | where_exp: "post", "post.draft != true" %}
-    {% for post in published_posts limit: 3 %}
-      <article class="card">
+  <div class="card-grid home-project-grid">
+    {% assign published_posts = site.posts | where_exp: "post", "post.published != false" | where_exp: "post", "post.draft != true" %}
+    {% for post in published_posts limit: 4 %}
+      <article class="card home-project-card writing-card">
         <div class="card-content">
           <p class="eyebrow">{{ post.date | date: "%b %d, %Y" }}</p>
           <h3><a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a></h3>
-          <p class="card-description">{{ post.excerpt | strip_html | strip_newlines | escape }}</p>
+          <p class="card-description">{{ post.excerpt | strip_html | strip_newlines | escape | truncate: 150 }}</p>
+          <a class="home-read-link" href="{{ post.url | relative_url }}">Read article →</a>
         </div>
       </article>
     {% else %}
-      <p class="muted">Articles and notes will appear here as you publish them.</p>
+      <p class="muted">Articles will appear here as you publish them.</p>
     {% endfor %}
   </div>
 </section>
 
-<section class="section">
-  <div class="section-header">
-    <div>
-      <p class="eyebrow">THINGS I'M EXPLORING</p>
-      <h2>Experiments</h2>
+<section class="section home-section">
+  <div class="section-header home-section-header">
+    <div class="home-heading-group">
+      <span class="section-icon">⌘</span>
+      <div>
+        <h2>Experiments</h2>
+        <p>Things I'm learning, testing, and building.</p>
+      </div>
     </div>
-    <a href="{{ '/experiments/' | relative_url }}">All experiments →</a>
+    <a href="{{ '/experiments/' | relative_url }}">View all experiments →</a>
   </div>
 
-  <div class="card-grid">
-    {% assign published_experiments = site.experiments | where: "featured", true | where_exp: "experiment", "experiment.published != false" | where_exp: "experiment", "experiment.draft != true" %}
-    {% for experiment in published_experiments limit: 3 %}
-      <article class="card">
+  <div class="card-grid home-project-grid">
+    {% assign published_experiments = site.experiments | where_exp: "experiment", "experiment.published != false" | where_exp: "experiment", "experiment.draft != true" %}
+    {% for experiment in published_experiments limit: 4 %}
+      <article class="card home-project-card">
         <div class="card-content">
           {% if experiment.status %}
             <span class="status">{{ experiment.status | escape }}</span>
           {% endif %}
           <h3><a href="{{ experiment.url | relative_url }}">{{ experiment.title | escape }}</a></h3>
           <p class="card-description">{{ experiment.description | escape }}</p>
+          <a class="home-read-link" href="{{ experiment.url | relative_url }}">Explore experiment →</a>
         </div>
       </article>
     {% else %}
-      <p class="muted">New experiments will appear here as they take shape.</p>
+      <p class="muted">Experiments will appear here as you publish them.</p>
     {% endfor %}
   </div>
 </section>
 
-<section class="section">
-  <div class="card">
-    <div class="card-content">
-      <p class="eyebrow">LET'S CONNECT</p>
-      <h2>Interested in my work?</h2>
-      <p class="card-description">
-        Explore my projects, learn more about my background, or get in touch
-        about finance, reporting, and analytical opportunities.
-      </p>
-      <div class="button-row">
-        <a class="button button-primary" href="{{ '/resume/' | relative_url }}">View my resume</a>
-        <a class="button" href="{{ '/contact/' | relative_url }}">Contact me</a>
-      </div>
-    </div>
+<section class="section home-about-strip">
+  <div class="home-about-column">
+    <h2><span class="section-icon">♙</span> About Me</h2>
+    <p>
+      I'm a Commerce graduate interested in financial analysis, data,
+      and solving real-world problems. I'm continuing to build practical
+      skills and create work that demonstrates what I can do.
+    </p>
+    <a href="{{ '/about/' | relative_url }}">Learn more about me →</a>
+  </div>
+
+  <div class="home-skills-column">
+    <h2><span class="section-icon">‹/›</span> Skills</h2>
+    <ul class="tag-list">
+      <li class="tag">Excel</li>
+      <li class="tag">PivotTables</li>
+      <li class="tag">Financial Analysis</li>
+      <li class="tag">Reporting</li>
+      <li class="tag">Stata</li>
+      <li class="tag">Python</li>
+      <li class="tag">R</li>
+      <li class="tag">SQL · Learning</li>
+      <li class="tag">QuickBooks · Learning</li>
+    </ul>
+  </div>
+
+  <div class="home-links-column">
+    <h2><span class="section-icon">↗</span> Quick Links</h2>
+    <a href="{{ '/resume/' | relative_url }}">▤ &nbsp; View Resume <span>→</span></a>
+    <a href="{{ '/contact/' | relative_url }}">✉ &nbsp; Contact Me <span>→</span></a>
+    <a href="https://github.com/saifyt24" target="_blank" rel="noopener noreferrer">◉ &nbsp; GitHub <span>→</span></a>
+    <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">▣ &nbsp; LinkedIn <span>→</span></a>
   </div>
 </section>
