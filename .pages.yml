@@ -190,6 +190,7 @@ content:
       fields:
         - job_title
         - company
+        - record_category
         - start_date
         - end_date
       sort:
@@ -199,14 +200,24 @@ content:
         order: desc
     fields:
       - name: job_title
-        label: Job Title
+        label: Job Title or Volunteer Role
         type: string
         required: true
 
       - name: company
-        label: Company / Employer
+        label: Company, Organization, or Employer
         type: string
         required: true
+
+      - name: record_category
+        label: Record Category
+        type: select
+        required: true
+        options:
+          values:
+            - Long-term Employment
+            - Short-term Employment
+            - Volunteering
 
       - name: employment_type
         label: Employment Type
@@ -230,7 +241,7 @@ content:
         type: boolean
 
       - name: description
-        label: Job Description
+        label: Job Description or Volunteer Summary
         type: text
         required: true
 
@@ -244,8 +255,16 @@ content:
         type: text
 
       - name: company_website
-        label: Company Website
+        label: Organization Website
         type: string
+
+      - name: supporting_document
+        label: Supporting Document (Optional)
+        type: file
+        required: false
+        options:
+          extensions:
+            - pdf
 
       - name: body
         label: Additional Notes
