@@ -1,5 +1,5 @@
 ---
-job_title: Customer Service Specialist
+job_title: Bookkeeper
 company: Esso
 employment_type: Full-Time
 location: Brantford, ON
