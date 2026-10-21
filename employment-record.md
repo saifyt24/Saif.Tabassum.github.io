@@ -16,7 +16,7 @@ permalink: /employment-record/
 
 {% assign jobs = site.employment | sort: "start_date" | reverse %}
 
-{% assign categories = "Long-term Employment|Short-term Employment|Volunteering" | split: "|" %}
+{% assign categories = "Relevant Employment|Short-term Employment|Volunteering" | split: "|" %}
 
 {% for category in categories %}
   <section class="section">
