@@ -1,6 +1,7 @@
 ---
 job_title: Bookkeeper
 company: Esso
+record_category: Long-term Employment
 employment_type: Full-Time
 location: Brantford, ON
 start_date: 2019-09-01
