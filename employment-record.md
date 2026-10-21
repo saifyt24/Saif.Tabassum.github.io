@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Employment Record
-description: A complete record of my professional experience and employment history.
+description: Details of my professional experience and employment history.
 permalink: /employment-record/
 ---
 
@@ -9,7 +9,7 @@ permalink: /employment-record/
   <p class="eyebrow">Career history</p>
   <h1>Employment Record</h1>
   <p class="lead">
-    A record of my professional experience, responsibilities,
+    Details of my professional experience, responsibilities,
     and employment history.
   </p>
 </section>
