@@ -1,6 +1,7 @@
 ---
 job_title: Customer Associate
 company: TJX Canada
+record_category: Short-term Employment
 employment_type: Part-Time
 location: Brantford, ON
 start_date: 2024-06-02
