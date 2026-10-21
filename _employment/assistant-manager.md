@@ -1,7 +1,7 @@
 ---
 job_title: Assistant Manager
 company: Esso
-record_category: Long-term Employment
+record_category: Short-term Employment
 employment_type: Part-Time
 location: Brantford, ON
 start_date: 2021-08-01
