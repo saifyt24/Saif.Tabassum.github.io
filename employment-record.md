@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Employment Record
-description: Details of my professional experience and employment history.
+description: Details of my professional experience, short-term jobs, and volunteer work.
 permalink: /employment-record/
 ---
 
@@ -9,90 +9,82 @@ permalink: /employment-record/
   <p class="eyebrow">Career history</p>
   <h1>Employment Record</h1>
   <p class="lead">
-    Details of my professional experience, responsibilities,
-    and employment history.
+    A record of my professional experience, temporary positions,
+    responsibilities, achievements, and volunteer contributions.
   </p>
 </section>
 
+{% assign jobs = site.employment | sort: "start_date" | reverse %}
+{% assign long_term_jobs = jobs | where: "record_category", "Long-term Employment" %}
+{% assign short_term_jobs = jobs | where: "record_category", "Short-term Employment" %}
+{% assign volunteer_jobs = jobs | where: "record_category", "Volunteering" %}
+
+{% assign long_term_count = long_term_jobs | size %}
+{% assign short_term_count = short_term_jobs | size %}
+{% assign volunteer_count = volunteer_jobs | size %}
+{% assign total_jobs = jobs | size %}
+
+{% if long_term_count > 0 %}
 <section class="section">
+  <h2>Long-term Employment</h2>
+  <p class="muted">Ongoing and longer-term professional positions.</p>
+
   <div class="card-grid">
-    {% assign jobs = site.employment | sort: "start_date" | reverse %}
-    {% assign visible_jobs = 0 %}
-
-    {% for job in jobs %}
-      {% assign visible_jobs = visible_jobs | plus: 1 %}
-      <article class="card">
-        <div class="card-content">
-          <p class="eyebrow">
-            {% if job.start_date %}
-              {{ job.start_date | date: "%b %Y" }}
-            {% endif %}
-            –
-            {% if job.current %}
-              Present
-            {% elsif job.end_date %}
-              {{ job.end_date | date: "%b %Y" }}
-            {% else %}
-              End date not provided
-            {% endif %}
-          </p>
-
-          <h2>{{ job.job_title | escape }}</h2>
-          <p><strong>{{ job.company | escape }}</strong></p>
-
-          {% if job.location %}
-            <p class="muted">{{ job.location | escape }}</p>
-          {% endif %}
-
-          {% if job.employment_type %}
-            <p class="muted">{{ job.employment_type | escape }}</p>
-          {% endif %}
-
-          {% if job.description %}
-            <p class="card-description">
-              {{ job.description | escape }}
-            </p>
-          {% endif %}
-
-          {% if job.responsibilities %}
-            <h3>Responsibilities and achievements</h3>
-            <ul>
-              {% for item in job.responsibilities %}
-                <li>{{ item | escape }}</li>
-              {% endfor %}
-            </ul>
-          {% endif %}
-
-          {% if job.reason_for_leaving %}
-            <div class="employment-reason">
-              <h3>Reason for Leaving</h3>
-              <p>{{ job.reason_for_leaving | escape }}</p>
-            </div>
-          {% endif %}
-
-          {% if job.company_website %}
-            <p>
-              <a href="{{ job.company_website | escape }}"
-                 target="_blank"
-                 rel="noopener noreferrer">
-                Company website ↗
-              </a>
-            </p>
-          {% endif %}
-
-          {% if job.body %}
-            <div class="content">
-              {{ job.body }}
-            </div>
-          {% endif %}
-        </div>
-      </article>
+    {% for job in long_term_jobs %}
+      {% include employment-record-card.html job=job %}
     {% endfor %}
-
-    {% if visible_jobs == 0 %}
-      <p class="muted">
-        Employment history will appear here as entries are added.
-      </p>
-    {% endif %}
   </div>
 </section>
+{% endif %}
+
+{% if short_term_count > 0 %}
+<section class="section">
+  <h2>Short-term Employment</h2>
+  <p class="muted">Temporary, contract, seasonal, and brief positions.</p>
+
+  <div class="card-grid">
+    {% for job in short_term_jobs %}
+      {% include employment-record-card.html job=job %}
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if volunteer_count > 0 %}
+<section class="section">
+  <h2>Volunteering</h2>
+  <p class="muted">Volunteer roles and community contributions.</p>
+
+  <div class="card-grid">
+    {% for job in volunteer_jobs %}
+      {% include employment-record-card.html job=job %}
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if total_jobs == 0 %}
+<section class="section">
+  <p class="muted">
+    Employment history and volunteer experience will appear here as entries are added.
+  </p>
+</section>
+{% endif %}
+
+{% assign uncategorized_jobs = jobs | where_exp: "job", "job.record_category == nil or job.record_category == ''" %}
+{% assign uncategorized_count = uncategorized_jobs | size %}
+
+{% if uncategorized_count > 0 %}
+<section class="section">
+  <h2>Other Records</h2>
+  <p class="muted">
+    These entries need a category assigned in Pages CMS.
+  </p>
+
+  <div class="card-grid">
+    {% for job in uncategorized_jobs %}
+      {% include employment-record-card.html job=job %}
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
