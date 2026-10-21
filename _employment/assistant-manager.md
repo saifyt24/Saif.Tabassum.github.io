@@ -1,5 +1,5 @@
 ---
-job_title: Assistant Manager / Book Keeper
+job_title: Assistant Manager
 company: Esso
 employment_type: Part-Time
 location: Brantford, ON
