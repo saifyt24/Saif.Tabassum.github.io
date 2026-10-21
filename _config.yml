@@ -13,6 +13,8 @@ collections:
   experiments:
     output: true
     permalink: /experiments/:name/
+  employment:
+    output: false
 
 defaults:
   - scope:
