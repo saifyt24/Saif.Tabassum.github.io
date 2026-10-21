@@ -90,7 +90,6 @@ description: Finance, data analysis, and practical projects by Saif Tabassum.
   </div>
 </section>
 
-<!-- LIVE INVESTMENT WATCHLIST -->
 <section class="section home-section watchlist-section">
   <div class="section-header home-section-header">
     <div class="home-heading-group">
@@ -118,7 +117,6 @@ description: Finance, data analysis, and practical projects by Saif Tabassum.
     this is not a record of personal holdings or investment advice.
   </p>
 </section>
-<!-- END LIVE INVESTMENT WATCHLIST -->
 
 <section class="section home-section">
   <div class="section-header home-section-header">
@@ -215,8 +213,11 @@ description: Finance, data analysis, and practical projects by Saif Tabassum.
   </div>
 </section>
 
+{% raw %}
 <script>
 (() => {
+  "use strict";
+
   const grid = document.getElementById("market-watchlist");
   const status = document.getElementById("watchlist-status");
 
@@ -295,8 +296,7 @@ description: Finance, data analysis, and practical projects by Saif Tabassum.
       throw new Error("No quote returned for " + stock.symbol);
     }
 
-    const previousClose =
-      meta.chartPreviousClose ?? meta.previousClose;
+    const previousClose = meta.chartPreviousClose ?? meta.previousClose;
 
     const changePercent =
       Number.isFinite(previousClose) && previousClose !== 0
@@ -324,18 +324,14 @@ description: Finance, data analysis, and practical projects by Saif Tabassum.
       [pool[i], pool[j]] = [pool[j], pool[i]];
     }
 
-    let selected = pool.slice(0, 4);
+    const selected = pool.slice(0, 4);
 
-    // If possible, don't repeat the exact same group of four.
     if (
       selected.length === 4 &&
       displayedSymbols.length === 4 &&
       selected.every(q => displayedSymbols.includes(q.symbol))
     ) {
-      const replacement = pool.find(
-        q => !displayedSymbols.includes(q.symbol)
-      );
-
+      const replacement = pool.find(q => !displayedSymbols.includes(q.symbol));
       if (replacement) selected[3] = replacement;
     }
 
@@ -357,8 +353,6 @@ description: Finance, data analysis, and practical projects by Saif Tabassum.
         ? "Change unavailable"
         : `${change > 0 ? "+" : ""}${change.toFixed(2)}% vs. previous close`;
 
-      const initials = q.symbol.slice(0, 3);
-
       const investorLinks = {
         AAPL: "https://investor.apple.com/",
         MSFT: "https://www.microsoft.com/en-us/Investor/",
@@ -366,38 +360,32 @@ description: Finance, data analysis, and practical projects by Saif Tabassum.
         SHOP: "https://investors.shopify.com/"
       };
 
-      const link = investorLinks[q.symbol];
+      const link = investorLinks[q.symbol] ||
+        `https://finance.yahoo.com/quote/${encodeURIComponent(q.symbol)}/`;
+
+      const linkLabel = investorLinks[q.symbol]
+        ? "Investor information →"
+        : "Market information →";
 
       return `
         <article class="watchlist-card">
           <div class="watchlist-company">
-            <div class="watchlist-logo">${escapeHTML(initials)}</div>
+            <div class="watchlist-logo">${escapeHTML(q.symbol.slice(0, 3))}</div>
             <div>
               <strong>${escapeHTML(q.name)}</strong>
               <span>${escapeHTML(q.symbol)} · ${escapeHTML(q.focus)}</span>
             </div>
           </div>
-
           <div class="watchlist-quote">
             <span class="watchlist-price">${escapeHTML(money(q.price, q.currency))}</span>
-            <span class="watchlist-change ${direction}">
-              ${escapeHTML(changeText)}
-            </span>
+            <span class="watchlist-change ${direction}">${escapeHTML(changeText)}</span>
           </div>
-
           <p class="watchlist-quote-time">
             ${q.quoteTime
               ? "Quote time: " + escapeHTML(q.quoteTime.toLocaleString())
               : "Quote time not provided"}
           </p>
-
-          ${link
-            ? `<a href="${link}" target="_blank" rel="noopener noreferrer"
-                 aria-label="${escapeHTML(q.symbol)} investor information">Investor information →</a>`
-            : `<a href="https://finance.yahoo.com/quote/${encodeURIComponent(q.symbol)}/"
-                 target="_blank" rel="noopener noreferrer"
-                 aria-label="${escapeHTML(q.symbol)} market information">Market information →</a>`
-          }
+          <a href="${link}" target="_blank" rel="noopener noreferrer">${linkLabel}</a>
         </article>
       `;
     }).join("");
@@ -405,7 +393,6 @@ description: Finance, data analysis, and practical projects by Saif Tabassum.
 
   function rotateCards() {
     if (!quotes.length) return;
-
     const selected = chooseFour();
     displayedSymbols = selected.map(q => q.symbol);
     renderCards(selected);
@@ -420,10 +407,7 @@ description: Finance, data analysis, and practical projects by Saif Tabassum.
     }
 
     try {
-      const results = await Promise.allSettled(
-        stocks.map(stock => getQuote(stock))
-      );
-
+      const results = await Promise.allSettled(stocks.map(getQuote));
       const successful = results
         .filter(result => result.status === "fulfilled")
         .map(result => result.value);
@@ -461,4 +445,5 @@ description: Finance, data analysis, and practical projects by Saif Tabassum.
   });
 })();
 </script>
+{% endraw %}
 
